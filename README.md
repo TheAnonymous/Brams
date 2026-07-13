@@ -1,4 +1,4 @@
-# BraunUi
+# Brams
 
 Ein kleines, dependency-freies Web-UI-System, inspiriert von der Klarheit und
 Funktionalität klassischer Braun-Industriegestaltung. Es ist kein offizielles
@@ -17,16 +17,16 @@ Danach ist die Showcase-Seite unter `http://localhost:8080` erreichbar.
 
 ## Inhalt
 
-- `braun-ui.css` – Design Tokens, Reset und die Komponentenbibliothek
-- `braun-ui.js` – kleine, zugängliche Interaktionen für Tabs, Switches,
+- `brams.css` – Design Tokens, Reset und die Komponentenbibliothek
+- `brams.js` – kleine, zugängliche Interaktionen für Tabs, Switches,
   Segmented Controls und den Volume-Regler
 - `index.html` – lebendige Referenzseite für die Komponenten
 
 ## Verwendung
 
 ```html
-<link rel="stylesheet" href="braun-ui.css" />
-<script src="braun-ui.js" defer></script>
+<link rel="stylesheet" href="brams.css" />
+<script src="brams.js" defer></script>
 
 <button class="bu-button bu-button--primary">Speichern</button>
 ```
