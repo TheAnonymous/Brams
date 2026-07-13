@@ -2,6 +2,8 @@
 
 Brams ist eine dependency-freie Vanilla-CSS/JavaScript-Library für sachliche, robuste Produktoberflächen. Der technische Light-Theme-Stil folgt einer digitalen Rams-Formensprache: Gebrauchswert, Ordnung, Verständlichkeit und Zurückhaltung stehen vor Dekoration.
 
+**Live-Demo:** [Brams-Komponentenkatalog auf GitHub Pages](https://theanonymous.github.io/Brams/)
+
 Die Library ist kein offizielles Braun-Produkt und verwendet keine geschützten Braun-Gestaltungselemente.
 
 ## Einbindung
