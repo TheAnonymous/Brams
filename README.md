@@ -28,7 +28,7 @@ Danach ist die Showcase-Seite unter `http://localhost:8080` erreichbar.
 <link rel="stylesheet" href="brams.css" />
 <script src="brams.js" defer></script>
 
-<button class="bu-button bu-button--primary">Speichern</button>
+<button class="brams-button brams-button--primary">Speichern</button>
 ```
 
 Die zentralen Werte liegen als CSS-Variablen in `:root`. Ein Produkt kann sie
@@ -36,7 +36,7 @@ gezielt überschreiben, ohne die Komponenten selbst kopieren zu müssen.
 
 ```css
 :root {
-  --bu-accent: #cf3b2f;
-  --bu-radius: 0.25rem;
+  --brams-accent: #cf3b2f;
+  --brams-radius: 0.25rem;
 }
 ```
