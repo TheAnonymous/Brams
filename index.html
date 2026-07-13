@@ -9,10 +9,10 @@
     <script src="brams.js" defer></script>
   </head>
   <body>
-    <header class="bu-header">
-      <div class="bu-shell bu-header__inner">
-          <a class="bu-brand" href="#top">BRAMS</a>
-        <nav class="bu-nav" aria-label="Seitennavigation">
+    <header class="brams-header">
+      <div class="brams-shell brams-header__inner">
+          <a class="brams-brand" href="#top">BRAMS</a>
+        <nav class="brams-nav" aria-label="Seitennavigation">
           <a href="#components">Komponenten</a>
           <a href="#principles">Prinzipien</a>
           <a href="#principles">v0.1.0</a>
@@ -20,74 +20,74 @@
       </div>
     </header>
 
-    <main id="top" class="bu-shell bu-showcase">
-      <section class="bu-hero" aria-labelledby="intro-title">
+    <main id="top" class="brams-shell brams-showcase">
+      <section class="brams-hero" aria-labelledby="intro-title">
         <div>
-          <p class="bu-eyebrow">UI system / 01</p>
-          <h1 id="intro-title" class="bu-display">Functional<br />clarity.</h1>
-          <p class="bu-lead">Eine sachliche Web-UI-Grundlage mit präzisen Komponenten, zurückhaltender Typografie und nur einer Akzentfarbe für echte Handlung.</p>
+          <p class="brams-eyebrow">UI system / 01</p>
+          <h1 id="intro-title" class="brams-display">Functional<br />clarity.</h1>
+          <p class="brams-lead">Eine sachliche Web-UI-Grundlage mit präzisen Komponenten, zurückhaltender Typografie und nur einer Akzentfarbe für echte Handlung.</p>
         </div>
-        <div class="bu-device" aria-label="Dekorative Geräteansicht">
-          <div class="bu-device__screen"><small>OPERATING SYSTEM</small><strong>11:42</strong></div>
-          <div class="bu-device__controls"><span class="bu-device__mark"></span><span class="bu-device__dial"></span></div>
+        <div class="brams-device" aria-label="Dekorative Geräteansicht">
+          <div class="brams-device__screen"><small>OPERATING SYSTEM</small><strong>11:42</strong></div>
+          <div class="brams-device__controls"><span class="brams-device__mark"></span><span class="brams-device__dial"></span></div>
         </div>
       </section>
 
-      <section class="bu-hero__spec" aria-label="Systemeigenschaften">
-        <div><p class="bu-eyebrow">01 / Contrast</p><strong>AA-ready states</strong></div>
-        <div><p class="bu-eyebrow">02 / Motion</p><strong>Purposeful, short</strong></div>
-        <div><p class="bu-eyebrow">03 / Radius</p><strong>4 px, not bubbly</strong></div>
-        <div><p class="bu-eyebrow">04 / Accent</p><strong>One clear action</strong></div>
+      <section class="brams-hero__spec" aria-label="Systemeigenschaften">
+        <div><p class="brams-eyebrow">01 / Contrast</p><strong>AA-ready states</strong></div>
+        <div><p class="brams-eyebrow">02 / Motion</p><strong>Purposeful, short</strong></div>
+        <div><p class="brams-eyebrow">03 / Radius</p><strong>4 px, not bubbly</strong></div>
+        <div><p class="brams-eyebrow">04 / Accent</p><strong>One clear action</strong></div>
       </section>
 
-      <section id="components" class="bu-showcase-grid" aria-label="Brams Komponenten">
-        <article class="bu-card">
-          <div class="bu-card__header"><div><h2 class="bu-section-title">Actions</h2><p class="bu-caption">Hierarchie ohne visuelles Geschrei.</p></div><span class="bu-status">Online</span></div>
-          <div class="bu-card__body bu-stack">
-            <div class="bu-inline"><button class="bu-button bu-button--primary">Speichern</button><button class="bu-button">Entwurf</button><button class="bu-button bu-button--quiet">Abbrechen</button></div>
-            <div class="bu-row"><span class="bu-label">Benachrichtigungen</span><button class="bu-switch" type="button" role="switch" aria-checked="true" aria-label="Benachrichtigungen umschalten"><span class="bu-switch__knob"></span></button></div>
-            <div class="bu-row"><span class="bu-label">Ansicht</span><div class="bu-segmented" aria-label="Ansicht auswählen"><button type="button" aria-pressed="true">LISTE</button><button type="button" aria-pressed="false">KACHELN</button></div></div>
+      <section id="components" class="brams-showcase-grid" aria-label="Brams Komponenten">
+        <article class="brams-card">
+          <div class="brams-card__header"><div><h2 class="brams-section-title">Actions</h2><p class="brams-caption">Hierarchie ohne visuelles Geschrei.</p></div><span class="brams-status">Online</span></div>
+          <div class="brams-card__body brams-stack">
+            <div class="brams-inline"><button class="brams-button brams-button--primary">Speichern</button><button class="brams-button">Entwurf</button><button class="brams-button brams-button--quiet">Abbrechen</button></div>
+            <div class="brams-row"><span class="brams-label">Benachrichtigungen</span><button class="brams-switch" type="button" role="switch" aria-checked="true" aria-label="Benachrichtigungen umschalten"><span class="brams-switch__knob"></span></button></div>
+            <div class="brams-row"><span class="brams-label">Ansicht</span><div class="brams-segmented" aria-label="Ansicht auswählen"><button type="button" aria-pressed="true">LISTE</button><button type="button" aria-pressed="false">KACHELN</button></div></div>
           </div>
         </article>
 
-        <article class="bu-card">
-          <div class="bu-card__header"><div><h2 class="bu-section-title">Input</h2><p class="bu-caption">Direkt, lesbar, ohne unnötige Umrandungen.</p></div><code class="bu-code">field</code></div>
-          <form class="bu-card__body bu-stack" onsubmit="return false">
-            <label class="bu-field"><span class="bu-label">Projektname</span><input class="bu-input" value="Atlas Control" /><span class="bu-field__help">Wird im Arbeitsbereich angezeigt.</span></label>
-            <label class="bu-field"><span class="bu-label">Arbeitsbereich</span><select class="bu-select"><option>Produktion</option><option>Entwicklung</option><option>Archiv</option></select></label>
-            <button class="bu-button bu-button--primary" type="submit">Änderungen sichern</button>
+        <article class="brams-card">
+          <div class="brams-card__header"><div><h2 class="brams-section-title">Input</h2><p class="brams-caption">Direkt, lesbar, ohne unnötige Umrandungen.</p></div><code class="brams-code">field</code></div>
+          <form class="brams-card__body brams-stack" onsubmit="return false">
+            <label class="brams-field"><span class="brams-label">Projektname</span><input class="brams-input" value="Atlas Control" /><span class="brams-field__help">Wird im Arbeitsbereich angezeigt.</span></label>
+            <label class="brams-field"><span class="brams-label">Arbeitsbereich</span><select class="brams-select"><option>Produktion</option><option>Entwicklung</option><option>Archiv</option></select></label>
+            <button class="brams-button brams-button--primary" type="submit">Änderungen sichern</button>
           </form>
         </article>
 
-        <article class="bu-card">
-          <div class="bu-card__header"><div><h2 class="bu-section-title">Navigation</h2><p class="bu-caption">Tabs funktionieren auch mit den Pfeiltasten.</p></div><code class="bu-code">tabs</code></div>
-          <div class="bu-card__body">
-            <div class="bu-tabs" role="tablist" aria-label="Einstellungen">
-              <button class="bu-tab" type="button" role="tab" aria-selected="true" aria-controls="panel-general" id="tab-general">Allgemein</button>
-              <button class="bu-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-display" id="tab-display" tabindex="-1">Anzeige</button>
-              <button class="bu-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-access" id="tab-access" tabindex="-1">Zugriff</button>
+        <article class="brams-card">
+          <div class="brams-card__header"><div><h2 class="brams-section-title">Navigation</h2><p class="brams-caption">Tabs funktionieren auch mit den Pfeiltasten.</p></div><code class="brams-code">tabs</code></div>
+          <div class="brams-card__body">
+            <div class="brams-tabs" role="tablist" aria-label="Einstellungen">
+              <button class="brams-tab" type="button" role="tab" aria-selected="true" aria-controls="panel-general" id="tab-general">Allgemein</button>
+              <button class="brams-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-display" id="tab-display" tabindex="-1">Anzeige</button>
+              <button class="brams-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-access" id="tab-access" tabindex="-1">Zugriff</button>
             </div>
-            <div class="bu-tab-panel" role="tabpanel" id="panel-general" aria-labelledby="tab-general"><strong>Systembereit.</strong><p class="bu-caption">Konfigurationen werden automatisch synchronisiert.</p></div>
-            <div class="bu-tab-panel" role="tabpanel" id="panel-display" aria-labelledby="tab-display" hidden><strong>Anzeige kalibriert.</strong><p class="bu-caption">Kontrast und Skalierung sind optimal eingestellt.</p></div>
-            <div class="bu-tab-panel" role="tabpanel" id="panel-access" aria-labelledby="tab-access" hidden><strong>Nur Teammitglieder.</strong><p class="bu-caption">Weitere Personen können über Einladungen hinzugefügt werden.</p></div>
+            <div class="brams-tab-panel" role="tabpanel" id="panel-general" aria-labelledby="tab-general"><strong>Systembereit.</strong><p class="brams-caption">Konfigurationen werden automatisch synchronisiert.</p></div>
+            <div class="brams-tab-panel" role="tabpanel" id="panel-display" aria-labelledby="tab-display" hidden><strong>Anzeige kalibriert.</strong><p class="brams-caption">Kontrast und Skalierung sind optimal eingestellt.</p></div>
+            <div class="brams-tab-panel" role="tabpanel" id="panel-access" aria-labelledby="tab-access" hidden><strong>Nur Teammitglieder.</strong><p class="brams-caption">Weitere Personen können über Einladungen hinzugefügt werden.</p></div>
           </div>
         </article>
 
-        <article class="bu-card">
-          <div class="bu-card__header"><div><h2 class="bu-section-title">Monitor</h2><p class="bu-caption">Daten bekommen eine klare, ruhige Bühne.</p></div><span class="bu-status bu-status--warning">1 Hinweis</span></div>
-          <div class="bu-card__body bu-stack">
-            <div class="bu-field"><span class="bu-label">Ausgangspegel</span><div class="bu-range"><input type="range" min="0" max="100" value="64" aria-label="Ausgangspegel" /><output>64%</output></div></div>
-            <table class="bu-table"><thead><tr><th>Einheit</th><th>Status</th><th>Wert</th></tr></thead><tbody><tr><td>Nord</td><td><span class="bu-status">Aktiv</span></td><td>24.8</td></tr><tr><td>Süd</td><td><span class="bu-status bu-status--warning">Prüfen</span></td><td>19.2</td></tr></tbody></table>
+        <article class="brams-card">
+          <div class="brams-card__header"><div><h2 class="brams-section-title">Monitor</h2><p class="brams-caption">Daten bekommen eine klare, ruhige Bühne.</p></div><span class="brams-status brams-status--warning">1 Hinweis</span></div>
+          <div class="brams-card__body brams-stack">
+            <div class="brams-field"><span class="brams-label">Ausgangspegel</span><div class="brams-range"><input type="range" min="0" max="100" value="64" aria-label="Ausgangspegel" /><output>64%</output></div></div>
+            <table class="brams-table"><thead><tr><th>Einheit</th><th>Status</th><th>Wert</th></tr></thead><tbody><tr><td>Nord</td><td><span class="brams-status">Aktiv</span></td><td>24.8</td></tr><tr><td>Süd</td><td><span class="brams-status brams-status--warning">Prüfen</span></td><td>19.2</td></tr></tbody></table>
           </div>
         </article>
       </section>
 
-      <section id="principles" class="bu-card" style="margin-top: var(--bu-space-5)">
-        <div class="bu-card__body">
-          <p class="bu-eyebrow">Principles / 05</p>
-          <div class="bu-showcase-grid" style="margin-top: var(--bu-space-5)">
-            <div><h2 class="bu-section-title">Weniger, aber besser</h2><p class="bu-caption">Jede Komponente löst eine Aufgabe – keine Dekoration als Selbstzweck.</p></div>
-            <div><h2 class="bu-section-title">Lesbarkeit zuerst</h2><p class="bu-caption">Kontrast, Fokuszustände und semantisches HTML gehören zum Systemkern.</p></div>
+      <section id="principles" class="brams-card" style="margin-top: var(--brams-space-5)">
+        <div class="brams-card__body">
+          <p class="brams-eyebrow">Principles / 05</p>
+          <div class="brams-showcase-grid" style="margin-top: var(--brams-space-5)">
+            <div><h2 class="brams-section-title">Weniger, aber besser</h2><p class="brams-caption">Jede Komponente löst eine Aufgabe – keine Dekoration als Selbstzweck.</p></div>
+            <div><h2 class="brams-section-title">Lesbarkeit zuerst</h2><p class="brams-caption">Kontrast, Fokuszustände und semantisches HTML gehören zum Systemkern.</p></div>
           </div>
         </div>
       </section>
