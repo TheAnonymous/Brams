@@ -2,14 +2,14 @@
  * Brams interactions. Kept intentionally small so CSS stays the primary API.
  */
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".bu-switch").forEach((switchButton) => {
+  document.querySelectorAll(".brams-switch").forEach((switchButton) => {
     switchButton.addEventListener("click", () => {
       const isChecked = switchButton.getAttribute("aria-checked") === "true";
       switchButton.setAttribute("aria-checked", String(!isChecked));
     });
   });
 
-  document.querySelectorAll(".bu-segmented").forEach((group) => {
+  document.querySelectorAll(".brams-segmented").forEach((group) => {
     group.querySelectorAll("button").forEach((button) => {
       button.addEventListener("click", () => {
         group.querySelectorAll("button").forEach((item) => item.setAttribute("aria-pressed", "false"));
@@ -36,8 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  document.querySelectorAll(".bu-range input").forEach((input) => {
-    const output = input.closest(".bu-range").querySelector("output");
+  document.querySelectorAll(".brams-range input").forEach((input) => {
+    const output = input.closest(".brams-range").querySelector("output");
     const updateOutput = () => { output.textContent = `${input.value}%`; };
     input.addEventListener("input", updateOutput);
     updateOutput();
