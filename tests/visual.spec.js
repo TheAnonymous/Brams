@@ -31,10 +31,13 @@ test("system control panel detail", async ({ page, browserName }) => {
   test.skip(browserName !== "chromium", "Visual baseline is maintained in Chromium.");
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
-  await page.evaluate(() => document.fonts.ready);
+  await prepareCatalog(page);
   await expect(page.locator(".brams-control-panel")).toHaveScreenshot("control-panel.png");
+  await expect(page.locator(".brams-catalog-archive").nth(0)).toHaveScreenshot("foundations-archive.png");
   await expect(page.locator(".brams-catalog-study").nth(0)).toHaveScreenshot("interaction-study.png");
+  await expect(page.locator(".brams-catalog-archive").nth(1)).toHaveScreenshot("navigation-archive.png");
   await expect(page.locator(".brams-catalog-study").nth(1)).toHaveScreenshot("signal-study.png");
+  await expect(page.locator(".brams-catalog-archive").nth(2)).toHaveScreenshot("information-archive.png");
 });
 
 test("open modal and drawer states", async ({ page, browserName }) => {
