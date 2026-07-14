@@ -3,11 +3,15 @@ const { test, expect } = require("@playwright/test");
 async function prepareCatalog(page) {
   await page.evaluate(() => document.fonts.ready);
   const assets = page.locator("[data-brams-catalog-asset]");
-  for (const asset of await assets.all()) {
-    await asset.scrollIntoViewIfNeeded();
-    await expect.poll(() => asset.evaluate((image) => image.complete && image.naturalWidth > 0)).toBe(true);
-  }
-  await page.evaluate(() => window.scrollTo(0, 0));
+  await assets.evaluateAll((images) => images.forEach((image) => { image.loading = "eager"; }));
+  await expect.poll(() => assets.evaluateAll((images) => images.every((image) => image.complete && image.naturalWidth > 0)), {
+    timeout: 15_000,
+  }).toBe(true);
+  await page.evaluate(async () => {
+    window.scrollTo(0, 0);
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  });
+  await expect(page.locator("[data-brams-demo-catalog-nav] a[href='#grundlagen']")).toHaveAttribute("aria-current", "true");
 }
 
 test("full component catalog", async ({ page, browserName }) => {
@@ -15,7 +19,7 @@ test("full component catalog", async ({ page, browserName }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/");
   await prepareCatalog(page);
-  await expect(page).toHaveScreenshot("catalog-full.png", { fullPage: true });
+  await expect(page).toHaveScreenshot("catalog-full.png", { fullPage: true, timeout: 20_000 });
 });
 
 test("mobile catalog viewport and full catalog", async ({ page, browserName }) => {
@@ -24,12 +28,13 @@ test("mobile catalog viewport and full catalog", async ({ page, browserName }) =
   await page.goto("/");
   await prepareCatalog(page);
   await expect(page).toHaveScreenshot("catalog-mobile.png");
-  await expect(page).toHaveScreenshot("catalog-mobile-full.png", { fullPage: true });
+  await expect(page).toHaveScreenshot("catalog-mobile-full.png", { fullPage: true, timeout: 20_000 });
 });
 
 test("tablet and minimum-width catalog boundaries", async ({ page, browserName }) => {
   test.skip(browserName !== "chromium", "Visual baseline is maintained in Chromium.");
   for (const viewport of [
+    { name: "catalog-1024.png", width: 1024, height: 900 },
     { name: "catalog-768.png", width: 768, height: 900 },
     { name: "catalog-320.png", width: 320, height: 720 },
   ]) {
@@ -58,14 +63,15 @@ test("system control panel detail", async ({ page, browserName }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
   await prepareCatalog(page);
+  await expect(page.locator(".brams-catalog-hero")).toHaveScreenshot("catalog-hero.png");
   await expect(page.locator(".brams-control-panel")).toHaveScreenshot("control-panel.png");
-  await expect(page.locator(".brams-catalog-archive").nth(0)).toHaveScreenshot("foundations-archive.png");
-  await expect(page.locator(".brams-catalog-study").nth(0)).toHaveScreenshot("interaction-study.png");
-  await expect(page.locator(".brams-catalog-archive").nth(1)).toHaveScreenshot("navigation-archive.png");
-  await expect(page.locator(".brams-catalog-study").nth(1)).toHaveScreenshot("signal-study.png");
-  await expect(page.locator(".brams-catalog-archive").nth(2)).toHaveScreenshot("information-archive.png");
-  await expect(page.locator(".brams-catalog-material")).toHaveScreenshot("system-family.png");
-  await expect(page.locator(".brams-object-archive")).toHaveScreenshot("object-archive.png");
+  await expect(page.locator(".brams-catalog-material").first()).toHaveScreenshot("system-family.png");
+  for (const [index, name] of ["action-module", "interaction-study", "wayfinding-study", "signal-study", "data-instrument"].entries()) {
+    await expect(page.locator(".brams-catalog-study").nth(index)).toHaveScreenshot(`${name}.png`);
+  }
+  await expect(page.locator("#button")).toHaveScreenshot("button-states.png");
+  await expect(page.locator("#checkbox")).toHaveScreenshot("native-controls.png");
+  await expect(page.locator("#material")).toHaveScreenshot("material-service.png");
 });
 
 test("open modal and drawer states", async ({ page, browserName }) => {

@@ -1,4 +1,5 @@
 const { test, expect } = require("@playwright/test");
+const { readdir } = require("node:fs/promises");
 
 const pageLoadResults = new WeakMap();
 const testOrigin = `http://127.0.0.1:${Number(process.env.BRAMS_TEST_PORT || 4173)}`;
@@ -7,6 +8,7 @@ test.beforeEach(async ({ page }) => {
   const errors = [];
   const external = [];
   const fontResponses = [];
+  const imageResponses = [];
 
   page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
   page.on("pageerror", (error) => errors.push(error.message));
@@ -17,20 +19,22 @@ test.beforeEach(async ({ page }) => {
   page.on("response", (response) => {
     const pathname = new URL(response.url()).pathname;
     if (pathname.endsWith(".woff2")) fontResponses.push({ pathname, status: response.status() });
+    if (pathname.endsWith(".webp")) imageResponses.push({ pathname, status: response.status() });
   });
 
-  pageLoadResults.set(page, { errors, external, fontResponses });
+  pageLoadResults.set(page, { errors, external, fontResponses, imageResponses });
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
 });
 
-test("loads all 44 components and local fonts without errors or external requests", async ({ page }) => {
-  const { errors, external, fontResponses } = pageLoadResults.get(page);
+test("loads 44 components, three local fonts and exactly eight local images", async ({ page }) => {
+  const { errors, external, fontResponses, imageResponses } = pageLoadResults.get(page);
   const catalogAssets = page.locator("[data-brams-catalog-asset]");
-  for (const asset of await catalogAssets.all()) await asset.scrollIntoViewIfNeeded();
+  await expect(catalogAssets).toHaveCount(8);
+  await catalogAssets.evaluateAll((images) => images.forEach((image) => { image.loading = "eager"; }));
   await expect.poll(() => catalogAssets.evaluateAll((images) => {
     return images.map((image) => image.complete && image.naturalWidth > 0 && image.naturalHeight > 0);
-  })).toEqual(Array(22).fill(true));
+  }), { timeout: 15_000 }).toEqual(Array(8).fill(true));
   await expect(page.locator(".brams-catalog-component")).toHaveCount(44);
   await expect(page.locator(".brams-catalog-component__number").last()).toHaveText("44");
   expect(fontResponses.sort((a, b) => a.pathname.localeCompare(b.pathname))).toEqual([
@@ -38,6 +42,22 @@ test("loads all 44 components and local fonts without errors or external request
     { pathname: "/fonts/Archivo-Regular.woff2", status: 200 },
     { pathname: "/fonts/Archivo-SemiBold.woff2", status: 200 },
   ]);
+  const expectedImages = [
+    "brams-action-module.webp",
+    "brams-control-unit.webp",
+    "brams-data-instrument.webp",
+    "brams-interaction-study.webp",
+    "brams-material-study.webp",
+    "brams-signal-study.webp",
+    "brams-system-family.webp",
+    "brams-wayfinding-study.webp",
+  ];
+  expect((await readdir("assets")).filter((file) => file.endsWith(".webp")).sort()).toEqual(expectedImages);
+  expect([...new Map(imageResponses.map((result) => [result.pathname, result])).values()]
+    .sort((a, b) => a.pathname.localeCompare(b.pathname))).toEqual(expectedImages.map((file) => ({
+    pathname: `/assets/${file}`,
+    status: 200,
+  })));
   expect(errors).toEqual([]);
   expect(external).toEqual([]);
 });
@@ -66,8 +86,9 @@ test("uses Archivo for UI hierarchy and reserves mono for technical values", asy
       ".brams-catalog-finder kbd",
       ".brams-catalog-code-block pre",
       ".brams-catalog-manual-copy",
-      ".brams-object-archive__group-header > span",
       ".brams-catalog-finder__number",
+      ".brams-catalog-finder__spec",
+      ".brams-catalog-spec code",
     ].join(",");
     const unexpectedMono = [...document.querySelectorAll("body *")]
       .filter((element) => getComputedStyle(element).fontFamily.includes("monospace") && !element.closest(monoScope))
@@ -124,7 +145,7 @@ test("uses Archivo for UI hierarchy and reserves mono for technical values", asy
 });
 
 test("exposes an idempotent public API", async ({ page }) => {
-  await expect.poll(() => page.evaluate(() => window.Brams.VERSION)).toBe("0.4.0");
+  await expect.poll(() => page.evaluate(() => window.Brams.VERSION)).toBe("0.5.0");
   await expect(page.locator("script[src='catalog.js']")).toHaveCount(1);
   expect(await page.evaluate(() => Object.keys(window.Brams).sort())).toEqual(["VERSION", "close", "init", "open", "toast"]);
   await page.evaluate(() => {
@@ -165,7 +186,7 @@ test("tabs, segmented control and menu implement keyboard models", async ({ page
 });
 
 test("accordion and form controls expose native and ARIA state", async ({ page }) => {
-  const accordionButton = page.getByRole("button", { name: /Welche Browser/ });
+  const accordionButton = page.getByRole("button", { name: /Wann wird Modul 07 gewartet/ });
   await expect(accordionButton).toHaveAttribute("aria-expanded", "false");
   await accordionButton.click();
   await expect(accordionButton).toHaveAttribute("aria-expanded", "true");
@@ -257,6 +278,7 @@ test("popover and tooltip work with keyboard focus", async ({ page }) => {
 
   const tooltipTrigger = page.locator("[data-brams-tooltip]");
   await tooltipTrigger.focus();
+  await expect(tooltipTrigger).toBeFocused();
   await expect(page.locator("#tooltip-calibrate")).toBeVisible();
   await tooltipTrigger.blur();
   await expect(page.locator("#tooltip-calibrate")).toBeHidden();
@@ -278,7 +300,7 @@ test("focus, disabled, invalid and reduced-motion states are present", async ({ 
   expect(motion).toEqual({ animation: "none", transition: "0s" });
 });
 
-test("v0.4.0 visual contracts use black actions, reduced radii and shadowless cards", async ({ page }) => {
+test("v0.5.0 visual contracts use black actions, reduced radii and shadowless cards", async ({ page }) => {
   const styles = await page.evaluate(() => {
     const primary = getComputedStyle(document.querySelector(".brams-button--primary"));
     const card = getComputedStyle(document.querySelector(".brams-catalog-component"));
@@ -305,11 +327,118 @@ test("v0.4.0 visual contracts use black actions, reduced radii and shadowless ca
   });
 });
 
-test("component finder indexes 44 entries and ignores case and diacritics", async ({ page }) => {
+test("all 44 components expose one complete controlled specification line", async ({ page }) => {
+  const specifications = await page.locator(".brams-catalog-component").evaluateAll((components) => components.map((component) => ({
+    id: component.id,
+    state: component.dataset.bramsDemoState,
+    input: component.dataset.bramsDemoInput,
+    api: component.dataset.bramsDemoApi,
+    lines: component.querySelectorAll("[data-brams-demo-spec]").length,
+    terms: [...component.querySelectorAll("[data-brams-demo-spec] dt")].map((term) => term.textContent.trim()),
+    values: [...component.querySelectorAll("[data-brams-demo-spec] dd")].map((value) => value.textContent.trim()),
+  })));
+
+  expect(specifications).toHaveLength(44);
+  for (const specification of specifications) {
+    expect(specification.lines, specification.id).toBe(1);
+    expect(specification.terms, specification.id).toEqual(["STATE", "INPUT", "API"]);
+    expect(["static", "native", "programmatic"], specification.id).toContain(specification.state);
+    expect(["static", "native", "pointer + key"], specification.id).toContain(specification.input);
+    expect(specification.api, specification.id).toMatch(/^(\.brams-|data-brams-|Brams\.)/);
+    expect(specification.values, specification.id).toEqual([specification.state, specification.input, specification.api]);
+  }
+});
+
+test("desktop catalog uses explicit 5/7, 7/5 and full-width compositions", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const layout = await page.locator(".brams-catalog-component").evaluateAll((components) => components.map((component) => ({
+    id: component.id,
+    span5: component.classList.contains("brams-catalog-component--span-5"),
+    span7: component.classList.contains("brams-catalog-component--span-7"),
+    wide: component.classList.contains("brams-catalog-component--wide"),
+    gridColumn: getComputedStyle(component).gridColumnStart,
+  })));
+
+  expect(layout.some((item) => item.span5)).toBe(true);
+  expect(layout.some((item) => item.span7)).toBe(true);
+  expect(layout.some((item) => item.wide)).toBe(true);
+  for (const item of layout) {
+    expect(Number(item.span5) + Number(item.span7) + Number(item.wide), item.id).toBe(1);
+    if (item.span5) expect(item.gridColumn, item.id).toBe("span 5");
+    if (item.span7) expect(item.gridColumn, item.id).toBe("span 7");
+  }
+});
+
+test("interactive controls share precise hover, focus, pressed, selected and disabled states", async ({ page }) => {
+  const button = page.locator("#button .brams-button--primary");
+  await button.hover();
+  const box = await button.boundingBox();
+  await page.mouse.move(box.x + (box.width / 2), box.y + (box.height / 2));
+  await page.mouse.down();
+  await expect.poll(() => button.evaluate((element) => ({
+    active: element.matches(":active"),
+    offset: new DOMMatrixReadOnly(getComputedStyle(element).transform).m42,
+  }))).toEqual({ active: true, offset: 1 });
+  await page.mouse.up();
+
+  await page.locator("#button [data-brams-demo-code-toggle]").focus();
+  await page.keyboard.press("Tab");
+  await expect(button).toBeFocused();
+  const states = await page.evaluate(() => {
+    const style = (selector) => getComputedStyle(document.querySelector(selector));
+    const controlHeight = (selector) => document.querySelector(selector).getBoundingClientRect().height;
+    return {
+      focusedOutline: style("#button .brams-button--primary").outlineStyle,
+      heights: [
+        controlHeight("#button .brams-button--primary"),
+        controlHeight("#icon-button .brams-icon-button"),
+        controlHeight("#text-input .brams-input"),
+        controlHeight("#select .brams-select"),
+      ],
+      selectedBackgrounds: [
+        style("#tabs [aria-selected='true']").color,
+        style("#segmented-control [aria-pressed='true']").backgroundColor,
+        style("#pagination [aria-current='page']").backgroundColor,
+        style("#switch [aria-checked='true']").backgroundColor,
+      ],
+      native: {
+        checkboxAppearance: style("#checkbox input:checked").appearance,
+        checkboxBackground: style("#checkbox input:checked").backgroundColor,
+        radioAppearance: style("#radio-group input:checked").appearance,
+        radioBackground: style("#radio-group input:checked").backgroundColor,
+      },
+      disabled: {
+        button: style("#button button:disabled").opacity,
+        checkbox: style("#checkbox input:disabled").cursor,
+        input: style("#text-input input:disabled").cursor,
+      },
+    };
+  });
+
+  expect(states.focusedOutline).not.toBe("none");
+  expect(new Set(states.heights)).toEqual(new Set([40]));
+  expect(states.selectedBackgrounds.slice(1)).toEqual(Array(3).fill("rgb(17, 17, 15)"));
+  expect(states.native).toEqual({
+    checkboxAppearance: "none",
+    checkboxBackground: "rgb(17, 17, 15)",
+    radioAppearance: "none",
+    radioBackground: "rgb(17, 17, 15)",
+  });
+  expect(states.disabled).toEqual({ button: "0.45", checkbox: "not-allowed", input: "not-allowed" });
+});
+
+test("component finder indexes metadata, 44 entries and ignores case and diacritics", async ({ page }) => {
   const search = page.locator("[data-brams-demo-search]");
   await search.focus();
   await expect(page.locator("[data-brams-demo-results] [role='option']")).toHaveCount(44);
   await expect(page.locator(".brams-catalog-finder__group")).toHaveCount(5);
+  await expect(page.locator(".brams-catalog-finder__result").first()).toContainText("STATE");
+  await expect(page.locator(".brams-catalog-finder__result").first()).toContainText("INPUT");
+  await expect(page.locator(".brams-catalog-finder__result").first()).toContainText("API");
+
+  await search.fill("data-brams-password-toggle");
+  await expect(page.locator("[data-brams-demo-results] [role='option']")).toHaveCount(1);
+  await expect(page.locator("[data-brams-demo-results]")).toContainText("Password Field");
 
   await search.fill("SCHLUSSEL");
   await expect(page.locator("[data-brams-demo-results] [role='option']")).toHaveCount(1);
@@ -372,6 +501,8 @@ test("code copy uses toast and exposes a manual clipboard fallback", async ({ pa
   });
   await page.locator("#button [data-brams-demo-code-toggle]").click();
   await page.locator("#code-button [data-brams-demo-copy]").click();
+  await expect(page.locator("#code-button [data-brams-demo-copy]")).toHaveText("Kopiert");
+  await expect(page.locator("#code-button [data-brams-demo-copy-status]")).toHaveText("Code kopiert.");
   await expect(page.locator(".brams-toast").filter({ hasText: "Code kopiert" })).toBeVisible();
   expect(await page.evaluate(() => window.__bramsCopied)).toContain("brams-button--primary");
 
@@ -404,11 +535,11 @@ test("correct and legacy pagination button classes remain compatible", async ({ 
 test("narrow catalog navigation keeps the active section visible", async ({ page }) => {
   await page.setViewportSize({ width: 768, height: 800 });
   await page.reload();
-  await page.locator("#archiv").scrollIntoViewIfNeeded();
-  await expect(page.locator("[data-brams-demo-catalog-nav] a[href='#archiv']")).toHaveAttribute("aria-current", "true");
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await expect(page.locator("[data-brams-demo-catalog-nav] a[href='#material']")).toHaveAttribute("aria-current", "true");
   await expect.poll(() => page.evaluate(() => {
     const nav = document.querySelector("[data-brams-demo-catalog-nav]");
-    const link = nav.querySelector("a[href='#archiv']");
+    const link = nav.querySelector("a[href='#material']");
     const navRect = nav.getBoundingClientRect();
     const linkRect = link.getBoundingClientRect();
     return nav.scrollLeft > 0 && linkRect.left >= navRect.left - 1 && linkRect.right <= navRect.right + 1;
@@ -461,6 +592,7 @@ test("core text and control colors meet WCAG AA contrast", async ({ page }) => {
 
 for (const viewport of [
   { name: "desktop", width: 1440, height: 900 },
+  { name: "compact desktop", width: 1024, height: 900 },
   { name: "tablet", width: 768, height: 900 },
   { name: "mobile", width: 390, height: 844 },
   { name: "minimum", width: 320, height: 720 },

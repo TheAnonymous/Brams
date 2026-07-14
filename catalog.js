@@ -16,18 +16,52 @@
     return reducedMotion.matches ? "auto" : "smooth";
   }
 
+  function specificationData(article) {
+    return {
+      state: article.dataset.bramsDemoState || "",
+      input: article.dataset.bramsDemoInput || "",
+      api: article.dataset.bramsDemoApi || "",
+    };
+  }
+
+  function createSpecification(article) {
+    const data = specificationData(article);
+    const specification = document.createElement("dl");
+    specification.className = "brams-catalog-spec";
+    specification.dataset.bramsDemoSpec = "";
+    [["STATE", data.state], ["INPUT", data.input], ["API", data.api]].forEach(([label, value]) => {
+      const item = document.createElement("div");
+      const term = document.createElement("dt");
+      const description = document.createElement("dd");
+      term.textContent = label;
+      if (label === "API") {
+        const code = document.createElement("code");
+        code.textContent = value;
+        description.append(code);
+      } else {
+        description.textContent = value;
+      }
+      item.append(term, description);
+      specification.append(item);
+    });
+    return specification;
+  }
+
   function componentData(article) {
     const section = article.closest(".brams-catalog-section");
+    const specification = specificationData(article);
     const data = {
       element: article,
       id: article.id,
       number: article.querySelector(".brams-catalog-component__number")?.textContent.trim() || "",
       title: article.querySelector(".brams-card__title")?.textContent.trim() || "",
       description: article.querySelector(".brams-card__description")?.textContent.trim() || "",
-      api: article.querySelector(".brams-catalog-code")?.textContent.trim() || "",
+      api: specification.api,
+      state: specification.state,
+      input: specification.input,
       category: section?.querySelector(".brams-catalog-section__title")?.textContent.trim() || "Komponenten",
     };
-    data.search = normalize([data.number, data.title, data.description, data.id, data.api].join(" "));
+    data.search = normalize([data.number, data.title, data.description, data.id, data.state, data.input, data.api].join(" "));
     return data;
   }
 
@@ -115,9 +149,10 @@
           const copy = document.createElement("span");
           const title = document.createElement("strong");
           title.textContent = component.title;
-          const api = document.createElement("code");
-          api.textContent = component.api;
-          copy.append(title, api);
+          const specification = document.createElement("span");
+          specification.className = "brams-catalog-finder__spec";
+          specification.textContent = `STATE ${component.state} · INPUT ${component.input} · API ${component.api}`;
+          copy.append(title, specification);
           option.append(index, copy);
           option.addEventListener("pointermove", () => setActive(options.indexOf(option)));
           option.addEventListener("click", () => jumpTo(component.id));
@@ -130,7 +165,7 @@
       if (!matches.length) {
         const empty = document.createElement("p");
         empty.className = "brams-catalog-finder__empty";
-        empty.textContent = "Keine passende Komponente. Suche nach Name, Nummer, ID oder API-Bezeichnung.";
+        empty.textContent = "Keine passende Komponente. Suche nach Name, Nummer, ID, STATE, INPUT oder API.";
         panel.append(empty);
       }
 
@@ -266,6 +301,8 @@
             if (!navigator.clipboard?.writeText) throw new Error("Clipboard API nicht verfügbar");
             await navigator.clipboard.writeText(value);
             copyStatus.textContent = "Code kopiert.";
+            copy.textContent = "Kopiert";
+            window.setTimeout(() => { copy.textContent = "Kopieren"; }, 2400);
             window.Brams?.toast({ title: "Code kopiert", message: `${title} · ${label.textContent}`, tone: "success", duration: 2400 });
           } catch (_) {
             copyFallback(block, value);
@@ -275,7 +312,7 @@
         block.append(blockHeader, pre, manual, copyStatus);
         panel.append(block);
       });
-      article.append(panel);
+      article.append(createSpecification(article), panel);
       article.dataset.bramsDemoDocumented = "true";
 
       toggle.addEventListener("click", () => {
@@ -316,7 +353,8 @@
       navFrame = 0;
       const offset = window.innerWidth <= 992 ? 132 : 96;
       const passed = sections.filter((section) => section.getBoundingClientRect().top <= offset);
-      const current = passed.at(-1) || sections[0];
+      const atDocumentEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+      const current = atDocumentEnd ? sections.at(-1) : (passed.at(-1) || sections[0]);
       if (current) updateCatalogNavigation(current.id);
     };
     links.forEach((link) => link.addEventListener("click", () => updateCatalogNavigation(link.hash.slice(1))));
