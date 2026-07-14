@@ -29,7 +29,7 @@ test("loads all 44 components and local fonts without errors or external request
   for (const asset of await catalogAssets.all()) await asset.scrollIntoViewIfNeeded();
   await expect.poll(() => catalogAssets.evaluateAll((images) => {
     return images.map((image) => image.complete && image.naturalWidth > 0 && image.naturalHeight > 0);
-  })).toEqual(Array(10).fill(true));
+  })).toEqual(Array(22).fill(true));
   await expect(page.locator(".brams-catalog-component")).toHaveCount(44);
   await expect(page.locator(".brams-catalog-component__number").last()).toHaveText("44");
   expect(fontResponses.sort((a, b) => a.pathname.localeCompare(b.pathname))).toEqual([

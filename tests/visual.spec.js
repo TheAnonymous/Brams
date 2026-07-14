@@ -38,6 +38,8 @@ test("system control panel detail", async ({ page, browserName }) => {
   await expect(page.locator(".brams-catalog-archive").nth(1)).toHaveScreenshot("navigation-archive.png");
   await expect(page.locator(".brams-catalog-study").nth(1)).toHaveScreenshot("signal-study.png");
   await expect(page.locator(".brams-catalog-archive").nth(2)).toHaveScreenshot("information-archive.png");
+  await expect(page.locator(".brams-object-archive__item--hero")).toHaveScreenshot("system-family.png");
+  await expect(page.locator(".brams-object-archive")).toHaveScreenshot("object-archive.png");
 });
 
 test("open modal and drawer states", async ({ page, browserName }) => {
