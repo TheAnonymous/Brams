@@ -25,10 +25,11 @@ test.beforeEach(async ({ page }) => {
 
 test("loads all 44 components and local fonts without errors or external requests", async ({ page }) => {
   const { errors, external, fontResponses } = pageLoadResults.get(page);
-  await page.locator(".brams-catalog-material").scrollIntoViewIfNeeded();
-  await expect.poll(() => page.locator(".brams-catalog-hero__product, .brams-catalog-material img").evaluateAll((images) => {
+  const catalogAssets = page.locator("[data-brams-catalog-asset]");
+  for (const asset of await catalogAssets.all()) await asset.scrollIntoViewIfNeeded();
+  await expect.poll(() => catalogAssets.evaluateAll((images) => {
     return images.map((image) => image.complete && image.naturalWidth > 0 && image.naturalHeight > 0);
-  })).toEqual([true, true]);
+  })).toEqual([true, true, true, true]);
   await expect(page.locator(".brams-catalog-component")).toHaveCount(44);
   await expect(page.locator(".brams-catalog-component__number").last()).toHaveText("44");
   expect(fontResponses.sort((a, b) => a.pathname.localeCompare(b.pathname))).toEqual([
