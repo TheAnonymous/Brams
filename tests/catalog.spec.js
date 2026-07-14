@@ -77,10 +77,6 @@ test("uses Archivo for UI hierarchy and reserves mono for technical values", asy
       ".brams-stat__value",
       ".brams-timeline__time",
       ".brams-mono",
-      ".brams-control-panel__serial",
-      ".brams-control-panel__display",
-      ".brams-control-panel__scale-labels",
-      ".brams-control-panel__module:first-child .brams-control-panel__value",
       ".brams-catalog-section__count",
       ".brams-catalog-component__number",
       ".brams-catalog-finder kbd",
@@ -103,9 +99,9 @@ test("uses Archivo for UI hierarchy and reserves mono for technical values", asy
       families: {
         body: style("body").fontFamily,
         codeLabel: style(".brams-catalog-code").fontFamily,
-        moduleStatus: style(".brams-control-panel__module:nth-child(2) .brams-control-panel__value").fontFamily,
+        metric: style(".brams-catalog-metrics__item strong").fontFamily,
         rangeValue: style(".brams-range__value").fontFamily,
-        serial: style(".brams-control-panel__serial").fontFamily,
+        sectionCount: style(".brams-catalog-section__count").fontFamily,
       },
       weights: {
         body: style("body").fontWeight,
@@ -115,7 +111,7 @@ test("uses Archivo for UI hierarchy and reserves mono for technical values", asy
       },
       numericVariants: {
         rangeValue: style(".brams-range__value").fontVariantNumeric,
-        serial: style(".brams-control-panel__serial").fontVariantNumeric,
+        sectionCount: style(".brams-catalog-section__count").fontVariantNumeric,
         moduleIndex: style(".brams-catalog-component__number").fontVariantNumeric,
       },
       unexpectedMono,
@@ -131,13 +127,13 @@ test("uses Archivo for UI hierarchy and reserves mono for technical values", asy
   expect(typography.checks).toEqual([true, true, true]);
   expect(typography.families.body).toContain("Archivo");
   expect(typography.families.codeLabel).toContain("Archivo");
-  expect(typography.families.moduleStatus).toContain("Archivo");
+  expect(typography.families.metric).toContain("Archivo");
   expect(typography.families.rangeValue).toContain("monospace");
-  expect(typography.families.serial).toContain("monospace");
+  expect(typography.families.sectionCount).toContain("monospace");
   expect(typography.weights).toEqual({ body: "400", heading: "500", button: "600", strong: "600" });
   expect(typography.numericVariants).toEqual({
     rangeValue: "tabular-nums",
-    serial: "tabular-nums",
+    sectionCount: "tabular-nums",
     moduleIndex: "tabular-nums",
   });
   expect(typography.unexpectedMono).toEqual([]);
@@ -270,11 +266,13 @@ test("toast, range, number, password, files, pagination and sorting work", async
 
 test("popover and tooltip work with keyboard focus", async ({ page }) => {
   const popover = page.locator("#popover-panel");
-  await page.locator("#popover-trigger").click();
+  const popoverTrigger = page.locator("#popover-trigger");
+  await popoverTrigger.click();
   await expect(popover).toBeVisible();
-  await expect(page.locator("#popover-trigger")).toHaveAttribute("aria-expanded", "true");
+  await expect(popoverTrigger).toHaveAttribute("aria-expanded", "true");
   await page.keyboard.press("Escape");
   await expect(popover).toBeHidden();
+  await expect(popoverTrigger).toBeFocused();
 
   const tooltipTrigger = page.locator("[data-brams-tooltip]");
   await tooltipTrigger.focus();
@@ -304,16 +302,16 @@ test("v0.5.0 visual contracts use black actions, reduced radii and shadowless ca
   const styles = await page.evaluate(() => {
     const primary = getComputedStyle(document.querySelector(".brams-button--primary"));
     const card = getComputedStyle(document.querySelector(".brams-catalog-component"));
-    const panel = getComputedStyle(document.querySelector(".brams-control-panel"));
-    const lamp = getComputedStyle(document.querySelector(".brams-control-panel__lamp"));
+    const heroStage = document.querySelector(".brams-catalog-hero__stage");
+    const heroProduct = document.querySelector(".brams-catalog-hero__product");
     return {
       primaryBackground: primary.backgroundColor,
       cardRadius: card.borderRadius,
       cardShadow: card.boxShadow,
       allCardsShadowless: [...document.querySelectorAll(".brams-card")]
         .every((element) => getComputedStyle(element).boxShadow === "none"),
-      panelRadius: panel.borderRadius,
-      lampBackground: lamp.backgroundColor,
+      heroStageChildren: heroStage.children.length,
+      heroProductPosition: getComputedStyle(heroProduct).position,
     };
   });
 
@@ -322,8 +320,8 @@ test("v0.5.0 visual contracts use black actions, reduced radii and shadowless ca
     cardRadius: "2px",
     cardShadow: "none",
     allCardsShadowless: true,
-    panelRadius: "2px",
-    lampBackground: "rgb(177, 38, 30)",
+    heroStageChildren: 1,
+    heroProductPosition: "static",
   });
 });
 

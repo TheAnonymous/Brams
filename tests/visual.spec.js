@@ -58,13 +58,12 @@ test("open component finder and code panel", async ({ page, browserName }) => {
   await expect(page.locator("#button")).toHaveScreenshot("code-panel.png");
 });
 
-test("system control panel detail", async ({ page, browserName }) => {
+test("system and chapter motif details", async ({ page, browserName }) => {
   test.skip(browserName !== "chromium", "Visual baseline is maintained in Chromium.");
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
   await prepareCatalog(page);
   await expect(page.locator(".brams-catalog-hero")).toHaveScreenshot("catalog-hero.png");
-  await expect(page.locator(".brams-control-panel")).toHaveScreenshot("control-panel.png");
   await expect(page.locator(".brams-catalog-material").first()).toHaveScreenshot("system-family.png");
   for (const [index, name] of ["action-module", "interaction-study", "wayfinding-study", "signal-study", "data-instrument"].entries()) {
     await expect(page.locator(".brams-catalog-study").nth(index)).toHaveScreenshot(`${name}.png`);

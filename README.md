@@ -209,7 +209,7 @@ Die Suite prüft unter Chromium, Firefox und WebKit unter anderem:
 - vollständige Snippet-Abdeckung, unabhängige Codepanels, Clipboard- und sichtbarer manueller Fallback
 - v0.5.0-Tokens, lokale Archivo-Schnitte, schwarze Primäraktionen, reduzierte Radien, schattenlose Standard-Cards, native Checkboxen/Radios und beide Pagination-Klassen
 - Zustandsmatrix für Buttons, Icon Buttons, Tabs, Segmente, Pagination, Checkbox, Radio, Switch und Eingaben unter Chromium, Firefox und WebKit
-- Chromium-Gesamtkataloge bei 1440px, 1024px, 768px, 390px und 320px sowie Detailaufnahmen von Finder, Codepanel, Kontrolltafel, Kapitelankern und Materialabschluss
+- Chromium-Gesamtkataloge bei 1440px, 1024px, 768px, 390px und 320px sowie Detailaufnahmen von Finder, Codepanel, Hero-Motiv, Kapitelankern und Materialabschluss
 
 Chromium-Snapshots werden bewusst aktualisiert mit:
 
