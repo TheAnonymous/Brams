@@ -4,8 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Brams v0.3.1 – 44 dependency-freie, zugängliche CSS- und JavaScript-Komponenten in digitaler Rams-Formensprache." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Brams v0.3.1 — Komponenten-Katalog" />
+    <meta property="og:description" content="44 präzise, dependency-freie Komponenten für robuste Produktoberflächen." />
+    <meta property="og:url" content="https://theanonymous.github.io/Brams/" />
+    <meta property="og:image" content="https://theanonymous.github.io/Brams/assets/brams-material-study.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
     <title>Brams v0.3.1 — Komponenten-Katalog</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%23b92f26'/%3E%3C/svg%3E" />
+    <link rel="preload" as="image" href="assets/brams-control-unit.webp" fetchpriority="high" />
     <link rel="stylesheet" href="brams.css" />
     <script src="brams.js" defer></script>
   </head>
@@ -29,23 +36,26 @@
           <h1 id="catalog-title" class="brams-catalog-hero__title">Klarheit,<br />die arbeitet.</h1>
           <p class="brams-catalog-hero__lead">44 präzise Komponenten und Patterns für robuste Produktoberflächen. Vanilla CSS, zugängliches JavaScript und kein Produktions-Build.</p>
         </div>
-        <figure class="brams-control-panel" aria-label="Kontrolltafel: 44 von 44 Modulen sind betriebsbereit">
-          <figcaption class="brams-control-panel__header"><span>System control / 03</span><span class="brams-control-panel__serial">BRAMS–044</span></figcaption>
-          <div class="brams-control-panel__display">
-            <span class="brams-control-panel__display-label">Component index / live</span>
-            <span class="brams-control-panel__readout"><strong>44</strong><small>/ 44</small></span>
-            <span class="brams-control-panel__display-status"><span>MODULE READY</span><span>SYS 03.1</span></span>
-          </div>
-          <div class="brams-control-panel__scale" aria-hidden="true">
-            <div class="brams-control-panel__ticks"></div>
-            <div class="brams-control-panel__scale-labels"><span>00</span><span>22</span><span>44</span></div>
-          </div>
-          <div class="brams-control-panel__controls">
-            <div class="brams-control-panel__module"><span>Index</span><span class="brams-control-panel__dial" aria-hidden="true"></span><span class="brams-control-panel__value">044</span></div>
-            <div class="brams-control-panel__module"><span>Mode</span><span class="brams-control-panel__toggle" aria-hidden="true"></span><span class="brams-control-panel__value">AUTO</span></div>
-            <div class="brams-control-panel__module"><span>Power</span><span class="brams-control-panel__lamp" aria-hidden="true"></span><span class="brams-control-panel__value">ON</span></div>
-          </div>
-        </figure>
+        <div class="brams-catalog-hero__stage">
+          <img class="brams-catalog-hero__product" src="assets/brams-control-unit.webp" alt="" width="960" height="1200" fetchpriority="high" decoding="async" />
+          <figure class="brams-control-panel" aria-label="Kontrolltafel: 44 von 44 Modulen sind betriebsbereit">
+            <figcaption class="brams-control-panel__header"><span>System control / 03</span><span class="brams-control-panel__serial">BRAMS–044</span></figcaption>
+            <div class="brams-control-panel__display">
+              <span class="brams-control-panel__display-label">Component index / live</span>
+              <span class="brams-control-panel__readout"><strong>44</strong><small>/ 44</small></span>
+              <span class="brams-control-panel__display-status"><span>MODULE READY</span><span>SYS 03.1</span></span>
+            </div>
+            <div class="brams-control-panel__scale" aria-hidden="true">
+              <div class="brams-control-panel__ticks"></div>
+              <div class="brams-control-panel__scale-labels"><span>00</span><span>22</span><span>44</span></div>
+            </div>
+            <div class="brams-control-panel__controls">
+              <div class="brams-control-panel__module"><span>Index</span><span class="brams-control-panel__dial" aria-hidden="true"></span><span class="brams-control-panel__value">044</span></div>
+              <div class="brams-control-panel__module"><span>Mode</span><span class="brams-control-panel__toggle" aria-hidden="true"></span><span class="brams-control-panel__value">AUTO</span></div>
+              <div class="brams-control-panel__module"><span>Power</span><span class="brams-control-panel__lamp" aria-hidden="true"></span><span class="brams-control-panel__value">ON</span></div>
+            </div>
+          </figure>
+        </div>
       </section>
 
       <section class="brams-catalog-metrics" aria-label="Systemeigenschaften">
@@ -54,6 +64,11 @@
         <div class="brams-catalog-metrics__item"><span>03 / Motion</span><strong>Reduced-motion ready</strong></div>
         <div class="brams-catalog-metrics__item"><span>04 / Theme</span><strong>Technical light</strong></div>
       </section>
+
+      <figure class="brams-catalog-material">
+        <img src="assets/brams-material-study.webp" alt="Makroaufnahme einer elfenbeinfarbenen Bedienfläche mit Aluminiumregler, Skala und roter Signalleuchte" width="1800" height="600" loading="lazy" decoding="async" />
+        <figcaption><span>Material study / 01</span><span>Powder coat · aluminum · signal red</span></figcaption>
+      </figure>
 
       <div class="brams-catalog-layout">
         <nav class="brams-sidenav brams-catalog-nav" aria-label="Komponentenkategorien" data-brams-catalog-nav>
