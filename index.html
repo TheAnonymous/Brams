@@ -3,18 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Brams v0.3.1 – 44 dependency-freie, zugängliche CSS- und JavaScript-Komponenten in digitaler Rams-Formensprache." />
+    <meta name="description" content="Brams v0.4.0 – 44 dependency-freie, zugängliche CSS- und JavaScript-Komponenten in digitaler Rams-Formensprache." />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Brams v0.3.1 — Komponenten-Katalog" />
+    <meta property="og:title" content="Brams v0.4.0 — Komponenten-Katalog" />
     <meta property="og:description" content="44 präzise, dependency-freie Komponenten für robuste Produktoberflächen." />
     <meta property="og:url" content="https://theanonymous.github.io/Brams/" />
     <meta property="og:image" content="https://theanonymous.github.io/Brams/assets/brams-material-study.webp" />
     <meta name="twitter:card" content="summary_large_image" />
-    <title>Brams v0.3.1 — Komponenten-Katalog</title>
+    <title>Brams v0.4.0 — Komponenten-Katalog</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%23b92f26'/%3E%3C/svg%3E" />
     <link rel="preload" as="image" href="assets/brams-control-unit.webp" fetchpriority="high" />
     <link rel="stylesheet" href="brams.css" />
     <script src="brams.js" defer></script>
+    <script src="catalog.js" defer></script>
   </head>
   <body id="top">
     <header class="brams-header brams-header--sticky">
@@ -24,7 +25,7 @@
           <a href="#grundlagen">Komponenten</a>
           <a href="#api">API</a>
           <a href="README.md">Dokumentation</a>
-          <span class="brams-badge brams-badge--accent">v0.3.1</span>
+          <span class="brams-badge brams-badge--accent">v0.4.0</span>
         </nav>
       </div>
     </header>
@@ -32,18 +33,18 @@
     <main class="brams-shell">
       <section class="brams-catalog-hero" aria-labelledby="catalog-title">
         <div class="brams-catalog-hero__copy">
-          <p class="brams-catalog-hero__eyebrow">Digital interface system / 03</p>
+          <p class="brams-catalog-hero__eyebrow">Digital interface system / 04</p>
           <h1 id="catalog-title" class="brams-catalog-hero__title">Klarheit,<br />die arbeitet.</h1>
           <p class="brams-catalog-hero__lead">44 präzise Komponenten und Patterns für robuste Produktoberflächen. Vanilla CSS, zugängliches JavaScript und kein Produktions-Build.</p>
         </div>
         <div class="brams-catalog-hero__stage">
           <img class="brams-catalog-hero__product" src="assets/brams-control-unit.webp" alt="" width="960" height="1200" fetchpriority="high" decoding="async" data-brams-catalog-asset />
           <figure class="brams-control-panel" aria-label="Kontrolltafel: 44 von 44 Modulen sind betriebsbereit">
-            <figcaption class="brams-control-panel__header"><span>System control / 03</span><span class="brams-control-panel__serial">BRAMS–044</span></figcaption>
+            <figcaption class="brams-control-panel__header"><span>System control / 04</span><span class="brams-control-panel__serial">BRAMS–044</span></figcaption>
             <div class="brams-control-panel__display">
               <span class="brams-control-panel__display-label">Component index / live</span>
               <span class="brams-control-panel__readout"><strong>44</strong><small>/ 44</small></span>
-              <span class="brams-control-panel__display-status"><span>MODULE READY</span><span>SYS 03.1</span></span>
+              <span class="brams-control-panel__display-status"><span>MODULE READY</span><span>SYS 04.0</span></span>
             </div>
             <div class="brams-control-panel__scale" aria-hidden="true">
               <div class="brams-control-panel__ticks"></div>
@@ -66,12 +67,12 @@
       </section>
 
       <figure class="brams-catalog-material">
-        <img src="assets/brams-material-study.webp" alt="Makroaufnahme einer elfenbeinfarbenen Bedienfläche mit Aluminiumregler, Skala und roter Signalleuchte" width="1800" height="600" loading="lazy" decoding="async" data-brams-catalog-asset />
-        <figcaption><span>Material study / 01</span><span>Powder coat · aluminum · signal red</span></figcaption>
+        <img src="assets/brams-system-family.webp" alt="Familienporträt aus fünf elfenbeinfarbenen Brams-Bediengeräten mit schwarzen Anzeigen, Aluminiumreglern und roten Signaldetails" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
+        <figcaption><span>System family / 01</span><span>One language · many roles</span></figcaption>
       </figure>
 
       <div class="brams-catalog-layout">
-        <nav class="brams-sidenav brams-catalog-nav" aria-label="Komponentenkategorien" data-brams-catalog-nav>
+        <nav class="brams-sidenav brams-catalog-nav" aria-label="Komponentenkategorien" data-brams-demo-catalog-nav>
           <p class="brams-sidenav__title">Katalog</p>
           <a class="brams-sidenav__link" href="#grundlagen" aria-current="true">Grundlagen &amp; Aktionen <span>08</span></a>
           <a class="brams-sidenav__link" href="#formulare" aria-current="false">Formulare <span>13</span></a>
@@ -84,6 +85,20 @@
         </nav>
 
         <div class="brams-catalog-main">
+          <section class="brams-catalog-finder" aria-labelledby="component-finder-title" data-brams-demo-finder>
+            <div class="brams-catalog-finder__intro">
+              <div><p class="brams-catalog-section__eyebrow">Component index / 44</p><h2 id="component-finder-title">Komponentenfinder</h2></div>
+              <p>Name, Nummer, ID oder API-Bezeichnung. Mit <kbd>/</kbd> direkt öffnen.</p>
+            </div>
+            <label class="brams-catalog-finder__field" for="component-finder-input">
+              <span class="brams-visually-hidden">Komponenten durchsuchen</span>
+              <svg class="brams-icon" aria-hidden="true"><use href="icons.svg#search"></use></svg>
+              <input id="component-finder-input" class="brams-input" type="search" role="combobox" placeholder="Komponente suchen …" autocomplete="off" aria-autocomplete="list" aria-controls="component-finder-results" aria-expanded="false" data-brams-demo-search />
+              <kbd aria-hidden="true">/</kbd>
+            </label>
+            <div id="component-finder-results" class="brams-catalog-finder__results" role="listbox" aria-label="Komponententreffer" hidden data-brams-demo-results></div>
+            <p class="brams-visually-hidden" aria-live="polite" aria-atomic="true" data-brams-demo-search-status></p>
+          </section>
           <section id="grundlagen" class="brams-catalog-section" aria-labelledby="grundlagen-title">
             <header class="brams-catalog-section__header">
               <div><p class="brams-catalog-section__eyebrow">01 / Foundations</p><h2 id="grundlagen-title" class="brams-catalog-section__title">Grundlagen &amp; Aktionen</h2></div>
@@ -248,7 +263,7 @@
 
               <article id="pagination" class="brams-card brams-catalog-component">
                 <header class="brams-card__header brams-catalog-component__header"><div><span class="brams-catalog-component__number">26</span><h3 class="brams-card__title">Pagination</h3><p class="brams-card__description">Clientseitiger Seitenzustand mit Live-Status.</p></div><code class="brams-catalog-code">.brams-pagination</code></header>
-                <div class="brams-catalog-demo"><span id="pagination-status" class="brams-muted" aria-live="polite">Datensätze 1–10 von 30</span><nav id="pagination-demo" class="brams-pagination" aria-label="Datenseiten" data-brams-pagination data-brams-status="#pagination-status" data-page="1"><button class="brams-pagination__bramstton" type="button" data-brams-page="previous" aria-label="Vorherige Seite"><svg class="brams-icon" aria-hidden="true"><use href="icons.svg#chevron-left"></use></svg></button><span class="brams-pagination__pages"><button class="brams-pagination__bramstton" type="button" data-page="1" aria-label="Seite 1" aria-current="page">1</button><button class="brams-pagination__bramstton" type="button" data-page="2" aria-label="Seite 2">2</button><button class="brams-pagination__bramstton" type="button" data-page="3" aria-label="Seite 3">3</button></span><button class="brams-pagination__bramstton" type="button" data-brams-page="next" aria-label="Nächste Seite"><svg class="brams-icon" aria-hidden="true"><use href="icons.svg#chevron-right"></use></svg></button></nav></div>
+                <div class="brams-catalog-demo"><span id="pagination-status" class="brams-muted" aria-live="polite">Datensätze 1–10 von 30</span><nav id="pagination-demo" class="brams-pagination" aria-label="Datenseiten" data-brams-pagination data-brams-status="#pagination-status" data-page="1"><button class="brams-pagination__button" type="button" data-brams-page="previous" aria-label="Vorherige Seite"><svg class="brams-icon" aria-hidden="true"><use href="icons.svg#chevron-left"></use></svg></button><span class="brams-pagination__pages"><button class="brams-pagination__button" type="button" data-page="1" aria-label="Seite 1" aria-current="page">1</button><button class="brams-pagination__button" type="button" data-page="2" aria-label="Seite 2">2</button><button class="brams-pagination__button" type="button" data-page="3" aria-label="Seite 3">3</button></span><button class="brams-pagination__button" type="button" data-brams-page="next" aria-label="Nächste Seite"><svg class="brams-icon" aria-hidden="true"><use href="icons.svg#chevron-right"></use></svg></button></nav></div>
               </article>
 
               <article id="process-stepper" class="brams-card brams-catalog-component">
@@ -381,68 +396,245 @@
           </div>
 
           <section id="api" class="brams-catalog-section" aria-labelledby="api-title">
-            <header class="brams-catalog-section__header"><div><p class="brams-catalog-section__eyebrow">06 / Public API</p><h2 id="api-title" class="brams-catalog-section__title">JavaScript API</h2></div><span class="brams-catalog-section__count">v0.3.1</span></header>
+            <header class="brams-catalog-section__header"><div><p class="brams-catalog-section__eyebrow">06 / Public API</p><h2 id="api-title" class="brams-catalog-section__title">JavaScript API</h2></div><span class="brams-catalog-section__count">v0.4.0</span></header>
             <div class="brams-card"><div class="brams-card__body"><dl class="brams-description-list"><dt><code>Brams.init(root)</code></dt><dd>Idempotente Initialisierung für dynamisches Markup.</dd><dt><code>Brams.open(target)</code></dt><dd>Öffnet Dialog, Drawer oder Popover.</dd><dt><code>Brams.close(target)</code></dt><dd>Schließt das Ziel und stellt den Fokus wieder her.</dd><dt><code>Brams.toast(options)</code></dt><dd>Erzeugt eine Live-Region-Meldung und gibt ihr Element zurück.</dd></dl></div></div>
           </section>
 
           <section id="archiv" class="brams-catalog-section" aria-labelledby="archiv-title">
-            <header class="brams-catalog-section__header"><div><p class="brams-catalog-section__eyebrow">07 / Object archive</p><h2 id="archiv-title" class="brams-catalog-section__title">Brams Objektarchiv</h2></div><span class="brams-catalog-section__count">10—21</span></header>
+            <header class="brams-catalog-section__header"><div><p class="brams-catalog-section__eyebrow">07 / Object archive</p><h2 id="archiv-title" class="brams-catalog-section__title">Brams Objektarchiv</h2></div><span class="brams-catalog-section__count">22 Studien</span></header>
             <div class="brams-object-archive">
-              <figure class="brams-object-archive__item brams-object-archive__item--hero">
-                <img src="assets/brams-system-family.webp" alt="Familienporträt aus fünf elfenbeinfarbenen Brams-Bediengeräten mit schwarzen Anzeigen, Aluminiumreglern und roten Signaldetails" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-                <figcaption><span>System family / 10</span><span>One language · many roles</span></figcaption>
-              </figure>
-              <figure class="brams-object-archive__item">
-                <img src="assets/brams-rotary-bank.webp" alt="Lange elfenbeinfarbene Reglerleiste mit vier unterschiedlich großen gerändelten Aluminiumdrehknöpfen" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-                <figcaption><span>Rotary bank / 11</span><span>Range · precision</span></figcaption>
-              </figure>
-              <figure class="brams-object-archive__item">
-                <img src="assets/brams-toggle-matrix.webp" alt="Quadratisches Bedienfeld mit neun schwarzen Kippschaltern und einem roten Schalter in präzisem Raster" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-                <figcaption><span>Toggle matrix / 12</span><span>State · choice</span></figcaption>
-              </figure>
-              <figure class="brams-object-archive__item">
-                <img src="assets/brams-input-carriage.webp" alt="Kompaktes Eingabegerät mit Aluminium-Schiebeschlitten, fünf hellen Tasten und rotem Bestätigungsknopf" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-                <figcaption><span>Input carriage / 13</span><span>Select · confirm</span></figcaption>
-              </figure>
-              <figure class="brams-object-archive__item">
-                <img src="assets/brams-index-wheel.webp" alt="Elfenbeinfarbenes Navigationsgerät mit eingelassenem schwarzem Indexrad, hellen Rastpunkten und Aluminiumzeiger" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-                <figcaption><span>Index wheel / 14</span><span>Locate · move</span></figcaption>
-              </figure>
-              <figure class="brams-object-archive__item">
-                <img src="assets/brams-status-beacon.webp" alt="Statusgerät mit sieben dunklen Signallinsen, einer leuchtend roten Linse und Aluminiumregler" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-                <figcaption><span>Status beacon / 15</span><span>Observe · respond</span></figcaption>
-              </figure>
-              <figure class="brams-object-archive__item">
-                <img src="assets/brams-progress-meter.webp" alt="Langes mechanisches Fortschrittsinstrument mit Aluminiumsegmenten, schwarzen Leerfeldern und roter Zielmarke" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-                <figcaption><span>Progress meter / 16</span><span>Advance · complete</span></figcaption>
-              </figure>
-              <figure class="brams-object-archive__item">
-                <img src="assets/brams-notification-module.webp" alt="Aufrechtes Benachrichtigungsmodul mit drei dunklen Sichtfenstern, rotem Mittelfeld und seitlichem Aluminiumhebel" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-                <figcaption><span>Notification module / 17</span><span>Priority · focus</span></figcaption>
-              </figure>
-              <figure class="brams-object-archive__item">
-                <img src="assets/brams-data-matrix.webp" alt="Breites Datenfeld mit vier mal sechs schwarzen Rasterzellen, fünf Aluminiumzellen und einer roten Zelle" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-                <figcaption><span>Data matrix / 18</span><span>Density · pattern</span></figcaption>
-              </figure>
-              <figure class="brams-object-archive__item">
-                <img src="assets/brams-filter-selector.webp" alt="Mechanischer Filterwähler mit drei übereinanderliegenden gelochten schwarzen Scheiben und rotem Segment" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-                <figcaption><span>Filter selector / 19</span><span>Narrow · refine</span></figcaption>
-              </figure>
-              <figure class="brams-object-archive__item brams-object-archive__item--wide">
-                <img src="assets/brams-terminal-dock.webp" alt="Zwei elfenbeinfarbene Anschlussmodule, verbunden durch eine kurze Aluminiumbrücke mit rotem Verriegelungsschieber" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-                <figcaption><span>Terminal dock / 20</span><span>Connect · expose</span></figcaption>
-              </figure>
-              <figure class="brams-object-archive__item brams-object-archive__item--wide">
-                <img src="assets/brams-service-study.webp" alt="Geordnete Konstruktionsstudie aus elfenbeinfarbener Abdeckung, schwarzer Dichtung, Aluminiumverschlüssen und rotem Dichtring" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-                <figcaption><span>Service study / 21</span><span>Build · maintain</span></figcaption>
-              </figure>
+              <section class="brams-object-archive__group" aria-labelledby="archive-control-title">
+                <header class="brams-object-archive__group-header"><span>01</span><h3 id="archive-control-title">Control</h3><p>Auslösen, regeln und präzise wählen.</p></header>
+                <div class="brams-object-archive__grid brams-object-archive__grid--three">
+                  <figure class="brams-object-archive__item"><img src="assets/brams-rotary-bank.webp" alt="Lange elfenbeinfarbene Reglerleiste mit vier unterschiedlich großen gerändelten Aluminiumdrehknöpfen" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset /><figcaption><span>Rotary bank / 10</span><span>Range · precision</span></figcaption></figure>
+                  <figure class="brams-object-archive__item"><img src="assets/brams-toggle-matrix.webp" alt="Quadratisches Bedienfeld mit neun schwarzen Kippschaltern und einem roten Schalter in präzisem Raster" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset /><figcaption><span>Toggle matrix / 11</span><span>State · choice</span></figcaption></figure>
+                  <figure class="brams-object-archive__item"><img src="assets/brams-input-carriage.webp" alt="Kompaktes Eingabegerät mit Aluminium-Schiebeschlitten, fünf hellen Tasten und rotem Bestätigungsknopf" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset /><figcaption><span>Input carriage / 12</span><span>Select · confirm</span></figcaption></figure>
+                  <figure class="brams-object-archive__item brams-object-archive__item--full"><img src="assets/brams-index-wheel.webp" alt="Elfenbeinfarbenes Navigationsgerät mit eingelassenem schwarzem Indexrad, hellen Rastpunkten und Aluminiumzeiger" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset /><figcaption><span>Index wheel / 13</span><span>Locate · move</span></figcaption></figure>
+                </div>
+              </section>
+              <section class="brams-object-archive__group" aria-labelledby="archive-state-title">
+                <header class="brams-object-archive__group-header"><span>02</span><h3 id="archive-state-title">State</h3><p>Zustände ruhig zeigen, Unterschiede klar markieren.</p></header>
+                <div class="brams-object-archive__grid brams-object-archive__grid--three">
+                  <figure class="brams-object-archive__item"><img src="assets/brams-status-beacon.webp" alt="Statusgerät mit sieben dunklen Signallinsen, einer leuchtend roten Linse und Aluminiumregler" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset /><figcaption><span>Status beacon / 14</span><span>Observe · respond</span></figcaption></figure>
+                  <figure class="brams-object-archive__item"><img src="assets/brams-progress-meter.webp" alt="Langes mechanisches Fortschrittsinstrument mit Aluminiumsegmenten, schwarzen Leerfeldern und roter Zielmarke" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset /><figcaption><span>Progress meter / 15</span><span>Advance · complete</span></figcaption></figure>
+                  <figure class="brams-object-archive__item"><img src="assets/brams-notification-module.webp" alt="Aufrechtes Benachrichtigungsmodul mit drei dunklen Sichtfenstern, rotem Mittelfeld und seitlichem Aluminiumhebel" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset /><figcaption><span>Notification module / 16</span><span>Priority · focus</span></figcaption></figure>
+                </div>
+              </section>
+              <section class="brams-object-archive__group" aria-labelledby="archive-data-title">
+                <header class="brams-object-archive__group-header"><span>03</span><h3 id="archive-data-title">Data</h3><p>Dichte Informationen ordnen und filtern.</p></header>
+                <div class="brams-object-archive__grid brams-object-archive__grid--two">
+                  <figure class="brams-object-archive__item"><img src="assets/brams-data-matrix.webp" alt="Breites Datenfeld mit vier mal sechs schwarzen Rasterzellen, fünf Aluminiumzellen und einer roten Zelle" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset /><figcaption><span>Data matrix / 17</span><span>Density · pattern</span></figcaption></figure>
+                  <figure class="brams-object-archive__item"><img src="assets/brams-filter-selector.webp" alt="Mechanischer Filterwähler mit drei übereinanderliegenden gelochten schwarzen Scheiben und rotem Segment" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset /><figcaption><span>Filter selector / 18</span><span>Narrow · refine</span></figcaption></figure>
+                </div>
+              </section>
+              <section class="brams-object-archive__group" aria-labelledby="archive-service-title">
+                <header class="brams-object-archive__group-header"><span>04</span><h3 id="archive-service-title">Service</h3><p>Material, Verbindung und Wartung sichtbar machen.</p></header>
+                <div class="brams-object-archive__grid brams-object-archive__grid--three">
+                  <figure class="brams-object-archive__item"><img src="assets/brams-material-study.webp" alt="Makroaufnahme einer elfenbeinfarbenen Bedienfläche mit Aluminiumregler, Skala und roter Signalleuchte" width="1800" height="600" loading="lazy" decoding="async" data-brams-catalog-asset /><figcaption><span>Material study / 19</span><span>Powder coat · aluminum</span></figcaption></figure>
+                  <figure class="brams-object-archive__item"><img src="assets/brams-terminal-dock.webp" alt="Zwei elfenbeinfarbene Anschlussmodule, verbunden durch eine kurze Aluminiumbrücke mit rotem Verriegelungsschieber" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset /><figcaption><span>Terminal dock / 20</span><span>Connect · expose</span></figcaption></figure>
+                  <figure class="brams-object-archive__item"><img src="assets/brams-service-study.webp" alt="Geordnete Konstruktionsstudie aus elfenbeinfarbener Abdeckung, schwarzer Dichtung, Aluminiumverschlüssen und rotem Dichtring" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset /><figcaption><span>Service study / 21</span><span>Build · maintain</span></figcaption></figure>
+                </div>
+              </section>
             </div>
           </section>
         </div>
       </div>
+
+      <div hidden data-brams-demo-snippets>
+        <template data-brams-demo-snippet="card" data-language="html">
+<article class="brams-card brams-card--selected">
+  <div class="brams-card__body">Control Unit 07</div>
+</article>
+        </template>
+        <template data-brams-demo-snippet="divider" data-language="html">
+<hr class="brams-divider brams-divider--strong" />
+        </template>
+        <template data-brams-demo-snippet="badge" data-language="html">
+<span class="brams-badge brams-badge--success">Freigegeben</span>
+        </template>
+        <template data-brams-demo-snippet="status" data-language="html">
+<span class="brams-status brams-status--success">Online</span>
+        </template>
+        <template data-brams-demo-snippet="avatar" data-language="html">
+<span class="brams-avatar" aria-label="Mara Klein">MK</span>
+        </template>
+        <template data-brams-demo-snippet="button" data-language="html">
+<button class="brams-button brams-button--primary" type="button">Speichern</button>
+        </template>
+        <template data-brams-demo-snippet="icon-button" data-language="html">
+<button class="brams-icon-button" type="button" aria-label="Einstellungen öffnen">
+  <svg class="brams-icon" aria-hidden="true"><use href="icons.svg#settings"></use></svg>
+</button>
+        </template>
+        <template data-brams-demo-snippet="button-group" data-language="html">
+<div class="brams-button-group" aria-label="Zeitraum">
+  <button class="brams-button" aria-pressed="true">Tag</button>
+  <button class="brams-button" aria-pressed="false">Woche</button>
+</div>
+        </template>
+        <template data-brams-demo-snippet="form-field" data-language="html">
+<label class="brams-field">
+  <span class="brams-field__label">Anlagenname</span>
+  <input class="brams-input" aria-describedby="anlagen-hilfe" />
+  <span id="anlagen-hilfe" class="brams-field__help">Eindeutig im Arbeitsbereich.</span>
+</label>
+        </template>
+        <template data-brams-demo-snippet="text-input" data-language="html">
+<input class="brams-input" type="text" placeholder="Projektname" />
+        </template>
+        <template data-brams-demo-snippet="search-field" data-language="html">
+<span class="brams-search">
+  <svg class="brams-icon" aria-hidden="true"><use href="icons.svg#search"></use></svg>
+  <input class="brams-input" type="search" />
+  <button class="brams-icon-button brams-icon-button--quiet" data-brams-search-clear aria-label="Suche leeren">×</button>
+</span>
+        </template>
+        <template data-brams-demo-snippet="password-field" data-language="html">
+<span class="brams-password">
+  <input class="brams-input" type="password" />
+  <button class="brams-icon-button brams-icon-button--quiet" data-brams-password-toggle aria-label="Passwort anzeigen" aria-pressed="false">Anzeigen</button>
+</span>
+        </template>
+        <template data-brams-demo-snippet="textarea" data-language="html">
+<textarea class="brams-textarea" rows="4"></textarea>
+        </template>
+        <template data-brams-demo-snippet="select" data-language="html">
+<select class="brams-select"><option>Automatisch</option><option>Manuell</option></select>
+        </template>
+        <template data-brams-demo-snippet="checkbox" data-language="html">
+<label class="brams-checkbox"><input type="checkbox" checked /><span>Protokoll aktivieren</span></label>
+        </template>
+        <template data-brams-demo-snippet="radio-group" data-language="html">
+<fieldset class="brams-radio-group">
+  <legend class="brams-radio-group__legend">Betriebsart</legend>
+  <label class="brams-radio"><input type="radio" name="mode" checked /> Auto</label>
+  <label class="brams-radio"><input type="radio" name="mode" /> Manuell</label>
+</fieldset>
+        </template>
+        <template data-brams-demo-snippet="switch" data-language="html">
+<button class="brams-switch" type="button" role="switch" aria-checked="true" aria-label="Automatische Updates">
+  <span class="brams-switch__thumb"></span>
+</button>
+        </template>
+        <template data-brams-demo-snippet="segmented-control" data-language="html">
+<div class="brams-segmented" data-brams-segmented>
+  <button class="brams-segmented__item" aria-pressed="true">Tag</button>
+  <button class="brams-segmented__item" aria-pressed="false" tabindex="-1">Woche</button>
+</div>
+        </template>
+        <template data-brams-demo-snippet="range" data-language="html">
+<label class="brams-range" data-brams-range data-brams-suffix=" %">
+  <input class="brams-range__input" type="range" min="0" max="100" value="64" />
+  <output class="brams-range__value">64 %</output>
+</label>
+        </template>
+        <template data-brams-demo-snippet="number-stepper" data-language="html">
+<span class="brams-number" data-brams-number>
+  <button class="brams-icon-button" data-brams-number-action="decrement" aria-label="Verringern">−</button>
+  <input class="brams-input" type="number" value="3" />
+  <button class="brams-icon-button" data-brams-number-action="increment" aria-label="Erhöhen">+</button>
+</span>
+        </template>
+        <template data-brams-demo-snippet="file-upload" data-language="html">
+<div class="brams-file" data-brams-file data-state="empty">
+  <label class="brams-file__dropzone">Dateien auswählen<input class="brams-visually-hidden" type="file" multiple /></label>
+  <ul class="brams-file__list" aria-live="polite"></ul>
+</div>
+        </template>
+        <template data-brams-demo-snippet="header" data-language="html">
+<header class="brams-header"><div class="brams-header__inner"><a class="brams-header__brand" href="/">CONTROL</a></div></header>
+        </template>
+        <template data-brams-demo-snippet="side-navigation" data-language="html">
+<nav class="brams-sidenav" aria-label="Produktbereiche">
+  <a class="brams-sidenav__link" href="#overview" aria-current="true">Übersicht</a>
+  <a class="brams-sidenav__link" href="#devices">Geräte</a>
+</nav>
+        </template>
+        <template data-brams-demo-snippet="breadcrumbs" data-language="html">
+<nav class="brams-breadcrumbs" aria-label="Brotkrümelnavigation"><ol class="brams-breadcrumbs__list"><li class="brams-breadcrumbs__item"><a href="/">Projekte</a></li><li class="brams-breadcrumbs__item"><span aria-current="page">Atlas</span></li></ol></nav>
+        </template>
+        <template data-brams-demo-snippet="tabs" data-language="html">
+<div class="brams-tabs" data-brams-tabs>
+  <div class="brams-tabs__list" role="tablist"><button class="brams-tabs__tab" role="tab" aria-selected="true" aria-controls="panel-a">Allgemein</button></div>
+  <div id="panel-a" class="brams-tabs__panel" role="tabpanel">Systembereit.</div>
+</div>
+        </template>
+        <template data-brams-demo-snippet="pagination" data-language="html">
+<nav class="brams-pagination" aria-label="Datenseiten" data-brams-pagination data-page="1">
+  <button class="brams-pagination__button" data-page="1" aria-current="page">1</button>
+  <button class="brams-pagination__button" data-page="2">2</button>
+</nav>
+        </template>
+        <template data-brams-demo-snippet="process-stepper" data-language="html">
+<ol class="brams-stepper" data-brams-process data-step="1"><li class="brams-stepper__item" data-state="complete">Prüfen</li><li class="brams-stepper__item" data-state="current" aria-current="step">Aktivieren</li></ol>
+        </template>
+        <template data-brams-demo-snippet="alert" data-language="html">
+<div class="brams-alert brams-alert--warning" role="alert"><div><h3 class="brams-alert__title">Speicher fast voll</h3><p class="brams-alert__message">Noch 4 % verfügbar.</p></div></div>
+        </template>
+        <template data-brams-demo-snippet="toast" data-language="html">
+<button class="brams-button" data-brams-toast-trigger data-brams-toast-title="Gespeichert" data-brams-toast-tone="success">Toast anzeigen</button>
+        </template>
+        <template data-brams-demo-snippet="toast" data-language="javascript">
+Brams.toast({ title: "Gespeichert", message: "Control Unit 07 wurde aktualisiert.", tone: "success" });
+        </template>
+        <template data-brams-demo-snippet="tooltip" data-language="html">
+<button aria-describedby="hilfe" data-brams-tooltip="#hilfe">Kalibrieren</button><div id="hilfe" class="brams-tooltip" role="tooltip" hidden>Zuletzt vor 12 Tagen.</div>
+        </template>
+        <template data-brams-demo-snippet="popover" data-language="html">
+<button data-brams-popover="#details" aria-expanded="false">Systemdetails</button><div id="details" class="brams-popover" role="dialog" hidden>Firmware 2.4.1</div>
+        </template>
+        <template data-brams-demo-snippet="popover" data-language="javascript">
+Brams.open("#details");
+        </template>
+        <template data-brams-demo-snippet="dropdown-menu" data-language="html">
+<button data-brams-menu="#actions" aria-haspopup="menu" aria-expanded="false">Aktionen</button><ul id="actions" class="brams-menu" role="menu" hidden><li role="none"><button class="brams-menu__item" role="menuitem">Exportieren</button></li></ul>
+        </template>
+        <template data-brams-demo-snippet="accordion" data-language="html">
+<div class="brams-accordion" data-brams-accordion><section class="brams-accordion__item"><h3><button class="brams-accordion__trigger" data-brams-accordion-trigger aria-expanded="false" aria-controls="answer">Welche Browser?</button></h3><div id="answer" class="brams-accordion__panel" hidden>Aktuelle Browser.</div></section></div>
+        </template>
+        <template data-brams-demo-snippet="progress-bar" data-language="html">
+<div class="brams-progress"><div class="brams-progress__track" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100"><div class="brams-progress__bar brams-progress__bar--68"></div></div></div>
+        </template>
+        <template data-brams-demo-snippet="spinner" data-language="html">
+<span class="brams-spinner" role="status"><span class="brams-visually-hidden">Lädt</span></span>
+        </template>
+        <template data-brams-demo-snippet="skeleton" data-language="html">
+<div aria-busy="true" aria-label="Inhalt wird geladen"><span class="brams-skeleton brams-skeleton--title"></span></div>
+        </template>
+        <template data-brams-demo-snippet="modal-dialog" data-language="html">
+<button data-brams-open="#dialog" aria-haspopup="dialog">Dialog öffnen</button><div id="dialog" class="brams-overlay" hidden><section class="brams-dialog" role="dialog" aria-modal="true"><button data-brams-close>Schließen</button></section></div>
+        </template>
+        <template data-brams-demo-snippet="modal-dialog" data-language="javascript">
+Brams.open("#dialog");
+        </template>
+        <template data-brams-demo-snippet="drawer" data-language="html">
+<button data-brams-open="#drawer" aria-haspopup="dialog">Drawer öffnen</button><div id="drawer" class="brams-drawer-overlay" hidden><aside class="brams-drawer" role="dialog" aria-modal="true"><button data-brams-close>Schließen</button></aside></div>
+        </template>
+        <template data-brams-demo-snippet="drawer" data-language="javascript">
+Brams.open("#drawer");
+        </template>
+        <template data-brams-demo-snippet="empty-state" data-language="html">
+<div class="brams-empty"><div><h3 class="brams-empty__title">Noch keine Messungen</h3><p class="brams-empty__message">Verbinde ein Gerät.</p></div></div>
+        </template>
+        <template data-brams-demo-snippet="data-table" data-language="html">
+<div class="brams-table-wrap"><table class="brams-table" data-brams-sortable><thead><tr><th aria-sort="none"><button class="brams-table__sort" data-brams-sort="string">Einheit</button></th></tr></thead><tbody><tr><td>Nord 07</td></tr></tbody></table></div>
+        </template>
+        <template data-brams-demo-snippet="kpi-stat" data-language="html">
+<div class="brams-stat"><span class="brams-stat__label">Aktive Geräte</span><strong class="brams-stat__value">128</strong></div>
+        </template>
+        <template data-brams-demo-snippet="list-group" data-language="html">
+<ul class="brams-list"><li class="brams-list__item" aria-selected="true"><span class="brams-list__title">Studio Nord</span></li></ul>
+        </template>
+        <template data-brams-demo-snippet="description-list" data-language="html">
+<dl class="brams-description-list"><dt>Modell</dt><dd>Control Unit B7</dd><dt>Firmware</dt><dd>2.4.1</dd></dl>
+        </template>
+        <template data-brams-demo-snippet="timeline" data-language="html">
+<ol class="brams-timeline"><li class="brams-timeline__item" data-tone="success"><span class="brams-timeline__marker" aria-hidden="true"></span><div><h3 class="brams-timeline__title">Konfiguration gespeichert</h3><time class="brams-timeline__time">10:42</time></div></li></ol>
+        </template>
+      </div>
     </main>
 
-    <footer class="brams-catalog-footer"><div class="brams-shell brams-cluster"><span>Brams v0.3.1 · MIT</span><a href="#top">Nach oben</a></div></footer>
+    <footer class="brams-catalog-footer"><div class="brams-shell brams-cluster"><span>Brams v0.4.0 · MIT</span><a href="#top">Nach oben</a></div></footer>
 
     <div id="confirm-dialog" class="brams-overlay" aria-hidden="true" hidden tabindex="-1">
       <section class="brams-dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-description">

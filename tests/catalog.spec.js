@@ -1,6 +1,7 @@
 const { test, expect } = require("@playwright/test");
 
 const pageLoadResults = new WeakMap();
+const testOrigin = `http://127.0.0.1:${Number(process.env.BRAMS_TEST_PORT || 4173)}`;
 
 test.beforeEach(async ({ page }) => {
   const errors = [];
@@ -11,7 +12,7 @@ test.beforeEach(async ({ page }) => {
   page.on("pageerror", (error) => errors.push(error.message));
   page.on("request", (request) => {
     const url = new URL(request.url());
-    if (url.origin !== "http://127.0.0.1:4173" && !["data:", "blob:"].includes(url.protocol)) external.push(request.url());
+    if (url.origin !== testOrigin && !["data:", "blob:"].includes(url.protocol)) external.push(request.url());
   });
   page.on("response", (response) => {
     const pathname = new URL(response.url()).pathname;
@@ -62,6 +63,11 @@ test("uses Archivo for UI hierarchy and reserves mono for technical values", asy
       ".brams-control-panel__module:first-child .brams-control-panel__value",
       ".brams-catalog-section__count",
       ".brams-catalog-component__number",
+      ".brams-catalog-finder kbd",
+      ".brams-catalog-code-block pre",
+      ".brams-catalog-manual-copy",
+      ".brams-object-archive__group-header > span",
+      ".brams-catalog-finder__number",
     ].join(",");
     const unexpectedMono = [...document.querySelectorAll("body *")]
       .filter((element) => getComputedStyle(element).fontFamily.includes("monospace") && !element.closest(monoScope))
@@ -118,7 +124,9 @@ test("uses Archivo for UI hierarchy and reserves mono for technical values", asy
 });
 
 test("exposes an idempotent public API", async ({ page }) => {
-  await expect.poll(() => page.evaluate(() => window.Brams.VERSION)).toBe("0.3.1");
+  await expect.poll(() => page.evaluate(() => window.Brams.VERSION)).toBe("0.4.0");
+  await expect(page.locator("script[src='catalog.js']")).toHaveCount(1);
+  expect(await page.evaluate(() => Object.keys(window.Brams).sort())).toEqual(["VERSION", "close", "init", "open", "toast"]);
   await page.evaluate(() => {
     Brams.init(document);
     Brams.init(document.querySelector("#switch"));
@@ -263,11 +271,14 @@ test("focus, disabled, invalid and reduced-motion states are present", async ({ 
   expect(invalidBorder).toBe("rgb(161, 38, 30)");
 
   await page.emulateMedia({ reducedMotion: "reduce" });
-  const duration = await page.locator(".brams-spinner").first().evaluate((element) => getComputedStyle(element).animationDuration);
-  expect(duration).toBe("0.001s");
+  const motion = await page.locator(".brams-spinner").first().evaluate((element) => ({
+    animation: getComputedStyle(element).animationName,
+    transition: getComputedStyle(document.querySelector(".brams-button")).transitionDuration,
+  }));
+  expect(motion).toEqual({ animation: "none", transition: "0s" });
 });
 
-test("v0.3.1 visual contracts use black actions, reduced radii and shadowless cards", async ({ page }) => {
+test("v0.4.0 visual contracts use black actions, reduced radii and shadowless cards", async ({ page }) => {
   const styles = await page.evaluate(() => {
     const primary = getComputedStyle(document.querySelector(".brams-button--primary"));
     const card = getComputedStyle(document.querySelector(".brams-catalog-component"));
@@ -292,6 +303,125 @@ test("v0.3.1 visual contracts use black actions, reduced radii and shadowless ca
     panelRadius: "2px",
     lampBackground: "rgb(177, 38, 30)",
   });
+});
+
+test("component finder indexes 44 entries and ignores case and diacritics", async ({ page }) => {
+  const search = page.locator("[data-brams-demo-search]");
+  await search.focus();
+  await expect(page.locator("[data-brams-demo-results] [role='option']")).toHaveCount(44);
+  await expect(page.locator(".brams-catalog-finder__group")).toHaveCount(5);
+
+  await search.fill("SCHLUSSEL");
+  await expect(page.locator("[data-brams-demo-results] [role='option']")).toHaveCount(1);
+  await expect(page.locator("[data-brams-demo-results]")).toContainText("Description List");
+  await expect(page.locator("[data-brams-demo-search-status]")).toHaveText("1 Komponente gefunden.");
+
+  await search.fill("kein-modul");
+  await expect(page.locator("[data-brams-demo-results] [role='option']")).toHaveCount(0);
+  await expect(page.locator(".brams-catalog-finder__empty")).toBeVisible();
+  await expect(page.locator("[data-brams-demo-search-status]")).toContainText("Keine Komponenten");
+});
+
+test("finder keyboard model updates hash and component focus", async ({ page }) => {
+  await page.locator("body").press("/");
+  const search = page.locator("[data-brams-demo-search]");
+  await expect(search).toBeFocused();
+  await search.press("ArrowUp");
+  await expect(search).toHaveAttribute("aria-activedescendant", "finder-result-timeline");
+  await search.fill("timeline");
+  await search.press("ArrowDown");
+  await expect(search).toHaveAttribute("aria-activedescendant", "finder-result-timeline");
+  await search.press("Enter");
+  await expect(page).toHaveURL(/#timeline$/);
+  await expect(page.locator("#timeline")).toBeFocused();
+
+  await search.focus();
+  await search.fill("toast");
+  await search.press("Escape");
+  await expect(search).toHaveValue("");
+  await expect(search).toHaveAttribute("aria-expanded", "false");
+  await expect(page.locator("[data-brams-demo-results]")).toBeHidden();
+});
+
+test("all components expose non-empty independent code examples", async ({ page }) => {
+  await expect(page.locator(".brams-catalog-component[data-brams-demo-documented='true']")).toHaveCount(44);
+  await expect(page.locator("[data-brams-demo-code-toggle]")).toHaveCount(44);
+  expect(await page.locator("template[data-brams-demo-snippet]").evaluateAll((templates) => ({
+    components: new Set(templates.map((template) => template.dataset.bramsDemoSnippet)).size,
+    nonEmpty: templates.every((template) => template.innerHTML.trim().length > 0),
+    javascript: templates.filter((template) => template.dataset.language === "javascript").length,
+  }))).toEqual({ components: 44, nonEmpty: true, javascript: 4 });
+
+  const cardToggle = page.locator("#card [data-brams-demo-code-toggle]");
+  const buttonToggle = page.locator("#button [data-brams-demo-code-toggle]");
+  await cardToggle.click();
+  await buttonToggle.click();
+  await expect(page.locator("#code-card")).toBeVisible();
+  await expect(page.locator("#code-button")).toBeVisible();
+  await cardToggle.click();
+  await expect(page.locator("#code-card")).toBeHidden();
+  await expect(page.locator("#code-button")).toBeVisible();
+});
+
+test("code copy uses toast and exposes a manual clipboard fallback", async ({ page }) => {
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: { writeText: async (value) => { window.__bramsCopied = value; } },
+    });
+  });
+  await page.locator("#button [data-brams-demo-code-toggle]").click();
+  await page.locator("#code-button [data-brams-demo-copy]").click();
+  await expect(page.locator(".brams-toast").filter({ hasText: "Code kopiert" })).toBeVisible();
+  expect(await page.evaluate(() => window.__bramsCopied)).toContain("brams-button--primary");
+
+  await page.evaluate(() => Object.defineProperty(navigator, "clipboard", { configurable: true, value: undefined }));
+  await page.locator("#card [data-brams-demo-code-toggle]").click();
+  await page.locator("#code-card [data-brams-demo-copy]").click();
+  const manual = page.locator("#code-card [data-brams-demo-manual-copy]");
+  await expect(manual).toBeVisible();
+  await expect(manual).toBeFocused();
+  await expect(manual).not.toHaveValue("");
+  await expect(page.locator("#code-card [data-brams-demo-copy-status]")).toContainText("markiert");
+});
+
+test("correct and legacy pagination button classes remain compatible", async ({ page }) => {
+  const styles = await page.evaluate(() => {
+    const legacy = document.createElement("button");
+    legacy.className = "brams-pagination__bramstton";
+    legacy.textContent = "4";
+    document.querySelector("#pagination-demo").append(legacy);
+    const current = document.querySelector(".brams-pagination__button");
+    const pick = (element) => {
+      const style = getComputedStyle(element);
+      return { display: style.display, height: style.height, borderRadius: style.borderRadius, fontSize: style.fontSize };
+    };
+    return { current: pick(current), legacy: pick(legacy) };
+  });
+  expect(styles.legacy).toEqual(styles.current);
+});
+
+test("narrow catalog navigation keeps the active section visible", async ({ page }) => {
+  await page.setViewportSize({ width: 768, height: 800 });
+  await page.reload();
+  await page.locator("#archiv").scrollIntoViewIfNeeded();
+  await expect(page.locator("[data-brams-demo-catalog-nav] a[href='#archiv']")).toHaveAttribute("aria-current", "true");
+  await expect.poll(() => page.evaluate(() => {
+    const nav = document.querySelector("[data-brams-demo-catalog-nav]");
+    const link = nav.querySelector("a[href='#archiv']");
+    const navRect = nav.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+    return nav.scrollLeft > 0 && linkRect.left >= navRect.left - 1 && linkRect.right <= navRect.right + 1;
+  })).toBe(true);
+});
+
+test("demo hooks stay outside the library runtime", async ({ page }) => {
+  const sources = await page.evaluate(async () => ({
+    runtime: await (await fetch("brams.js")).text(),
+    catalog: await (await fetch("catalog.js")).text(),
+  }));
+  expect(sources.runtime).not.toContain("data-brams-demo-");
+  expect(sources.catalog).toContain("data-brams-demo-");
 });
 
 test("core text and control colors meet WCAG AA contrast", async ({ page }) => {
@@ -331,7 +461,9 @@ test("core text and control colors meet WCAG AA contrast", async ({ page }) => {
 
 for (const viewport of [
   { name: "desktop", width: 1440, height: 900 },
+  { name: "tablet", width: 768, height: 900 },
   { name: "mobile", width: 390, height: 844 },
+  { name: "minimum", width: 320, height: 720 },
 ]) {
   test(`${viewport.name} layout has no page-level horizontal overflow`, async ({ page }) => {
     await page.setViewportSize(viewport);

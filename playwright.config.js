@@ -1,5 +1,8 @@
 const { defineConfig, devices } = require("@playwright/test");
 
+const port = Number(process.env.BRAMS_TEST_PORT || 4173);
+const baseURL = `http://127.0.0.1:${port}`;
+
 module.exports = defineConfig({
   testDir: "./tests",
   fullyParallel: true,
@@ -7,7 +10,7 @@ module.exports = defineConfig({
   retries: 0,
   reporter: "list",
   use: {
-    baseURL: "http://127.0.0.1:4173",
+    baseURL,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
@@ -15,8 +18,8 @@ module.exports = defineConfig({
     toHaveScreenshot: { animations: "disabled", maxDiffPixelRatio: 0.01 },
   },
   webServer: {
-    command: "python3 -m http.server 4173 --bind 127.0.0.1",
-    url: "http://127.0.0.1:4173",
+    command: `python3 -m http.server ${port} --bind 127.0.0.1`,
+    url: baseURL,
     reuseExistingServer: false,
   },
   projects: [

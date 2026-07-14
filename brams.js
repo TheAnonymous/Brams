@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const VERSION = "0.3.1";
+  const VERSION = "0.4.0";
   const initialized = new WeakMap();
   const openLayers = [];
   let globalListenersReady = false;
@@ -602,20 +602,6 @@
     }));
   }
 
-  function initCatalogNav(root) {
-    elements(root, "[data-brams-catalog-nav]").forEach((nav) => setup(nav, "catalog-nav", () => {
-      const links = [...nav.querySelectorAll("a[href^='#']")];
-      if (!("IntersectionObserver" in window)) return;
-      const observed = links.map((link) => document.querySelector(link.getAttribute("href"))).filter(Boolean);
-      const observer = new IntersectionObserver((entries) => {
-        const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (!visible) return;
-        links.forEach((link) => link.setAttribute("aria-current", String(link.getAttribute("href") === `#${visible.target.id}`)));
-      }, { rootMargin: "-20% 0px -70%", threshold: [0, 0.2, 0.5] });
-      observed.forEach((section) => observer.observe(section));
-    }));
-  }
-
   function removeToast(toast) {
     if (!toast || !toast.isConnected) return;
     toast.dataset.state = "closing";
@@ -692,7 +678,6 @@
     initPagination(scope);
     initSteppers(scope);
     initTables(scope);
-    initCatalogNav(scope);
     return scope;
   }
 

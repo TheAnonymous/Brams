@@ -27,6 +27,32 @@ test("mobile catalog viewport and full catalog", async ({ page, browserName }) =
   await expect(page).toHaveScreenshot("catalog-mobile-full.png", { fullPage: true });
 });
 
+test("tablet and minimum-width catalog boundaries", async ({ page, browserName }) => {
+  test.skip(browserName !== "chromium", "Visual baseline is maintained in Chromium.");
+  for (const viewport of [
+    { name: "catalog-768.png", width: 768, height: 900 },
+    { name: "catalog-320.png", width: 320, height: 720 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+    await prepareCatalog(page);
+    await expect(page).toHaveScreenshot(viewport.name);
+  }
+});
+
+test("open component finder and code panel", async ({ page, browserName }) => {
+  test.skip(browserName !== "chromium", "Visual baseline is maintained in Chromium.");
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  await page.evaluate(() => document.fonts.ready);
+  await page.locator("[data-brams-demo-search]").focus();
+  await expect(page).toHaveScreenshot("finder-open.png");
+  await page.locator("[data-brams-demo-search]").press("Escape");
+  await page.locator("#button").scrollIntoViewIfNeeded();
+  await page.locator("#button [data-brams-demo-code-toggle]").click();
+  await expect(page.locator("#button")).toHaveScreenshot("code-panel.png");
+});
+
 test("system control panel detail", async ({ page, browserName }) => {
   test.skip(browserName !== "chromium", "Visual baseline is maintained in Chromium.");
   await page.setViewportSize({ width: 1280, height: 800 });
@@ -38,7 +64,7 @@ test("system control panel detail", async ({ page, browserName }) => {
   await expect(page.locator(".brams-catalog-archive").nth(1)).toHaveScreenshot("navigation-archive.png");
   await expect(page.locator(".brams-catalog-study").nth(1)).toHaveScreenshot("signal-study.png");
   await expect(page.locator(".brams-catalog-archive").nth(2)).toHaveScreenshot("information-archive.png");
-  await expect(page.locator(".brams-object-archive__item--hero")).toHaveScreenshot("system-family.png");
+  await expect(page.locator(".brams-catalog-material")).toHaveScreenshot("system-family.png");
   await expect(page.locator(".brams-object-archive")).toHaveScreenshot("object-archive.png");
 });
 

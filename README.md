@@ -1,4 +1,4 @@
-# Brams v0.3.1
+# Brams v0.4.0
 
 Brams ist eine dependency-freie Vanilla-CSS/JavaScript-Library für sachliche, robuste Produktoberflächen. Der technische Light-Theme-Stil folgt einer digitalen Rams-Formensprache: Gebrauchswert, Ordnung, Verständlichkeit und Zurückhaltung stehen vor Dekoration.
 
@@ -86,13 +86,23 @@ Die Gewichtssystematik bleibt bewusst ruhig: Fließtext und Eingaben nutzen 400,
 
 Archivo steht unter der SIL Open Font License 1.1. Copyright und vollständiger Lizenztext werden separat unter [`fonts/OFL.txt`](fonts/OFL.txt) mitgeliefert. Die übrige Library bleibt unter der MIT-Lizenz dieses Repositories.
 
-## Formensprache v0.3.1
+## Formensprache v0.4.0
 
 - Warme Off-White-Flächen, technisches Grau und tiefes Schwarz bilden die Grundpalette. Rot ist Fehlern, Gefahr, Aufnahme und kleinen Betriebssignalen vorbehalten.
 - Primäraktionen sind schwarz. Radien bleiben bei 0–2 px; nur funktional runde Elemente wie Statuslampen, Dials, Avatare und Switch-Knöpfe sind kreisförmig.
 - Standard-Cards bleiben schattenlos und werden durch Haarlinien, Flächenstufen und das zwölfspaltige Katalograster gegliedert. Nur räumliche Overlays erhalten Schatten.
 - Archivo trägt die Oberfläche als lokal eingebundene Grotesk. Monospace ist funktionalen technischen Werten und Anzeigen vorbehalten.
 - Success und Warning erscheinen auf neutralen Flächen mit grünen beziehungsweise bernsteinfarbenen Kontrollleuchten und zugänglichem Text.
+- Hover, Fokus, Active und Selected folgen einem gemeinsamen mechanischen Zustandsmodell. Taster bewegen sich beim Drücken um genau einen Pixel; bei `prefers-reduced-motion: reduce` bleiben alle Übergänge und Animationen vollständig ruhig.
+- Das asymmetrische zwölfspaltige Katalograster bleibt auf Desktop erhalten und wechselt unterhalb von 56rem bewusst in eine einspaltige Dokumentationsansicht.
+
+## Katalogwerkzeuge
+
+Der öffentliche GitHub-Pages-Katalog lädt zusätzlich [`catalog.js`](catalog.js). Die Datei indexiert alle 44 Komponenten für die Suche, hält die schmale Katalognavigation beim Scrollen sichtbar und baut die unabhängigen Codepanels aus expliziten `<template>`-Beispielen auf. Diese Dokumentationslogik ist von der ausgelieferten Runtime in [`brams.js`](brams.js) getrennt.
+
+`/` fokussiert den Komponentenfinder. Pfeiltasten wählen Treffer, Enter springt mit Hash und Fokus zur Komponente, Escape leert beziehungsweise schließt die Suche. Die Suche ignoriert Großschreibung und Diakritika. Jedes Beispiel bietet copy-ready HTML; imperative Beispiele ergänzen JavaScript. Falls die Clipboard API fehlt, erscheint ein markiertes Textfeld zum manuellen Kopieren.
+
+Alle Hooks mit dem Präfix `data-brams-demo-*` sind ausschließlich katalogintern. Sie gehören nicht zur stabilen Library-API und dürfen in Produktoberflächen nicht als Brams-Schnittstelle verwendet werden.
 
 ## JavaScript-API
 
@@ -151,6 +161,10 @@ Mit `duration: 0` bleibt ein Toast bis zum manuellen Schließen sichtbar.
 | `data-brams-password-toggle`, `data-brams-search-clear` | Feldaktionen |
 | `data-brams-toast-trigger`, `data-brams-alert-dismiss` | Feedback erzeugen oder entfernen |
 
+### Pagination-Kompatibilität
+
+Die korrekte BEM-Klasse für Seitentasten lautet ab v0.4 `.brams-pagination__button`. Der versehentlich veröffentlichte Name `.brams-pagination__bramstton` bleibt während der gesamten v0.4-Reihe als CSS-Kompatibilitätsalias erhalten und wird erst in einem späteren Major-Release entfernt.
+
 Native Form Controls behalten ihre normalen `input`- und `change`-Events. Switch und Segmented Control senden zusätzlich ein bubbling `change`-Event, weil sie als Button-Patterns umgesetzt sind.
 
 ## Lokale Vorschau
@@ -175,6 +189,12 @@ npx playwright install
 npm test
 ```
 
+Der Testserver verwendet standardmäßig Port 4173. Bei einem belegten Port kann er ohne Konfigurationsänderung überschrieben werden:
+
+```bash
+BRAMS_TEST_PORT=4317 npm test
+```
+
 Die Suite prüft unter Chromium, Firefox und WebKit unter anderem:
 
 - Laden ohne Konsolenfehler oder externe Requests und 44 vorhandene Katalogeinträge
@@ -183,8 +203,10 @@ Die Suite prüft unter Chromium, Firefox und WebKit unter anderem:
 - Toast, Range, Number Stepper, Password, Dateiauswahl, Pagination und Tabellensortierung
 - Desktop- und Mobile-Layouts ohne seitenweises horizontales Überlaufen
 - Fokusdarstellung, WCAG-AA-Kontrast, Reduced Motion, Disabled-/Invalid-Zustände und visuelle Chromium-Snapshots
-- v0.3.1-Tokens, lokale Archivo-Schnitte, schwarze Primäraktionen, reduzierte Radien und schattenlose Standard-Cards
-- Desktop- und mobile Gesamtkataloge sowie Detailaufnahmen der code-nativen Kontrolltafel
+- Finder-Suche über alle 44 Einträge, Diakritika, Tastaturnavigation, Hash/Fokus und schmale Auto-Scrolling-Navigation
+- vollständige Snippet-Abdeckung, unabhängige Codepanels, Clipboard- und sichtbarer manueller Fallback
+- v0.4.0-Tokens, lokale Archivo-Schnitte, schwarze Primäraktionen, reduzierte Radien, schattenlose Standard-Cards und beide Pagination-Klassen
+- Gesamtkataloge bei 1440px, 768px, 390px und 320px sowie Detailaufnahmen von Finder, Codepanel, Kontrolltafel und Objektarchiv
 
 Chromium-Snapshots werden bewusst aktualisiert mit:
 
@@ -194,4 +216,4 @@ npm run test:update
 
 ## Browser
 
-Unterstützt werden aktuelle Versionen von Chromium, Firefox und WebKit. v0.3.1 bewahrt die BEM-Klassen, `data-brams-*`-Hooks und die öffentliche JavaScript-API aus v0.3; das Patch-Release verfeinert ausschließlich Typografie und fontbedingten Reflow.
+Unterstützt werden aktuelle Versionen von Chromium, Firefox und WebKit. v0.4.0 bewahrt die BEM-Klassen, `data-brams-*`-Hooks und die öffentliche JavaScript-API aus v0.3. Neue `data-brams-demo-*`-Hooks bleiben bewusst außerhalb dieser Kompatibilitätszusage.
