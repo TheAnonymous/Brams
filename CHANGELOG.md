@@ -13,6 +13,7 @@ Alle relevanten Änderungen an Brams werden in dieser Datei dokumentiert. Das Pr
 ### Qualität und Kompatibilität
 
 - Alle 44 Komponenten, BEM-Klassen, deklarativen `data-brams-*`-Hooks und Methoden der globalen JavaScript-API bleiben kompatibel.
+- Prozess-Stepper deaktivieren ihre Navigation am ersten und letzten Schritt; die Switch-Demo trennt Beschriftung und Hilfetext eindeutig.
 - Aktualisierte Chromium-Snapshots decken Gesamtkatalog, Kontrollinstrument, Systemübersicht, Komponentenfinder, Codepanels, Overlays und Service-Studie ab.
 - Der Katalog lädt weiterhin ausschließlich lokale Schriften und den lokalen SVG-Sprite, nun ohne dekorative Rasterbilder oder externe Requests.
 

@@ -607,6 +607,12 @@
           step.dataset.state = stepIndex < bounded ? "complete" : stepIndex === bounded ? "current" : "upcoming";
           step.setAttribute("aria-current", stepIndex === bounded ? "step" : "false");
         });
+        controls.forEach((button) => {
+          const action = button.dataset.bramsStepAction;
+          button.disabled = action === "previous"
+            ? bounded === 0
+            : action === "next" && bounded === steps.length - 1;
+        });
         process.dataset.step = String(bounded);
       };
       controls.forEach((button) => button.addEventListener("click", () => {
