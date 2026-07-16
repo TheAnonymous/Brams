@@ -332,6 +332,9 @@ test("popover and tooltip work with keyboard focus", async ({ page }) => {
   await tooltipTrigger.focus();
   await expect(tooltipTrigger).toBeFocused();
   await expect(page.locator("#tooltip-calibrate")).toBeVisible();
+  await tooltipTrigger.hover();
+  await page.mouse.move(0, 0);
+  await expect(page.locator("#tooltip-calibrate")).toBeVisible();
   await tooltipTrigger.blur();
   await expect(page.locator("#tooltip-calibrate")).toBeHidden();
 });

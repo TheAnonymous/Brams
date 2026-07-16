@@ -206,10 +206,10 @@ npx playwright install --with-deps chromium firefox webkit
 npm test
 ```
 
-Der Testserver verwendet standardmäßig Port 4173. Bei einem belegten Port kann er ohne Konfigurationsänderung überschrieben werden:
+Die Suite verwendet reproduzierbar zwei parallele Worker und der Testserver standardmäßig Port 4173. Beides kann ohne Konfigurationsänderung überschrieben werden:
 
 ```bash
-BRAMS_TEST_PORT=4317 npm test
+BRAMS_TEST_WORKERS=4 BRAMS_TEST_PORT=4317 npm test
 ```
 
 Die Suite prüft unter Chromium, Firefox und WebKit unter anderem:
