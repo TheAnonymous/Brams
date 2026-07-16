@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Brams v0.5.0 – 44 dependency-freie, zugängliche CSS- und JavaScript-Komponenten für präzise technische Produktoberflächen." />
+    <meta name="description" content="Brams v1.0.0 – 44 dependency-freie, zugängliche CSS- und JavaScript-Komponenten für präzise technische Produktoberflächen." />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Brams v0.5.0 — Komponenten-Katalog" />
+    <meta property="og:title" content="Brams v1.0.0 — Komponenten-Katalog" />
     <meta property="og:description" content="44 präzise, dependency-freie Komponenten für robuste Produktoberflächen." />
     <meta property="og:url" content="https://theanonymous.github.io/Brams/" />
     <meta property="og:image" content="https://theanonymous.github.io/Brams/assets/brams-material-study.webp" />
     <meta name="twitter:card" content="summary_large_image" />
-    <title>Brams v0.5.0 — Komponenten-Katalog</title>
+    <title>Brams v1.0.0 — Komponenten-Katalog</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%23b92f26'/%3E%3C/svg%3E" />
     <link rel="preload" as="image" href="assets/brams-control-unit.webp" fetchpriority="high" />
     <link rel="stylesheet" href="brams.css" />
@@ -25,7 +25,7 @@
           <a href="#grundlagen">Komponenten</a>
           <a href="#api">API</a>
           <a href="README.md">Dokumentation</a>
-          <span class="brams-badge brams-badge--accent">v0.5.0</span>
+          <span class="brams-badge brams-badge--accent">v1.0.0</span>
         </nav>
       </div>
     </header>
@@ -300,7 +300,7 @@
 
               <article id="skeleton" class="brams-card brams-catalog-component brams-catalog-component--span-7" data-brams-demo-state="static" data-brams-demo-input="static" data-brams-demo-api=".brams-skeleton">
                 <header class="brams-card__header brams-catalog-component__header"><div><span class="brams-catalog-component__number">36</span><h3 class="brams-card__title">Skeleton</h3><p class="brams-card__description">Wahrt Layout während des Ladens.</p></div><code class="brams-catalog-code">.brams-skeleton</code></header>
-                <div class="brams-catalog-demo" aria-busy="true" aria-label="Inhalt wird geladen"><div class="brams-inline"><span class="brams-skeleton brams-skeleton--circle"></span><span class="brams-stack brams-stack--sm brams-grow"><span class="brams-skeleton brams-skeleton--title"></span><span class="brams-skeleton"></span></span></div><span class="brams-skeleton"></span><span class="brams-skeleton brams-skeleton--78"></span></div>
+                <div class="brams-catalog-demo" role="status" aria-busy="true" aria-label="Inhalt wird geladen"><div class="brams-inline"><span class="brams-skeleton brams-skeleton--circle"></span><span class="brams-stack brams-stack--sm brams-grow"><span class="brams-skeleton brams-skeleton--title"></span><span class="brams-skeleton"></span></span></div><span class="brams-skeleton"></span><span class="brams-skeleton brams-skeleton--78"></span></div>
               </article>
 
               <article id="modal-dialog" class="brams-card brams-catalog-component brams-catalog-component--span-5" data-brams-demo-state="programmatic" data-brams-demo-input="pointer + key" data-brams-demo-api="Brams.open()">
@@ -338,9 +338,9 @@
                 <div class="brams-catalog-demo"><div class="brams-stat brams-stat--accent"><span class="brams-stat__label">Aktive Module</span><strong class="brams-stat__value">128</strong><span class="brams-stat__trend"><svg class="brams-icon" aria-hidden="true"><use href="icons.svg#arrow-up"></use></svg>12 % im Kanal</span></div><div class="brams-stat"><span class="brams-stat__label">Fehlerrate</span><strong class="brams-stat__value">0,4 %</strong><span class="brams-stat__trend brams-stat__trend--down"><svg class="brams-icon" aria-hidden="true"><use href="icons.svg#arrow-down"></use></svg>0,2 Punkte</span></div></div>
               </article>
 
-              <article id="list-group" class="brams-card brams-catalog-component brams-catalog-component--span-7" data-brams-demo-state="native" data-brams-demo-input="pointer + key" data-brams-demo-api=".brams-list">
-                <header class="brams-card__header brams-catalog-component__header"><div><span class="brams-catalog-component__number">42</span><h3 class="brams-card__title">List Group</h3><p class="brams-card__description">Strukturierte, auswählbare Inhaltszeilen.</p></div><code class="brams-catalog-code">.brams-list</code></header>
-                <div class="brams-catalog-demo"><ul class="brams-list" aria-label="Stationen"><li class="brams-list__item" aria-selected="true"><span><span class="brams-list__title">Station Nord</span><span class="brams-list__meta">8 Module</span></span><span class="brams-status brams-status--success">Online</span></li><li class="brams-list__item"><span><span class="brams-list__title">Station West</span><span class="brams-list__meta">4 Module</span></span><span class="brams-status brams-status--warning">Wartung</span></li><li class="brams-list__item"><span><span class="brams-list__title">Servicekanal</span><span class="brams-list__meta">0 Module</span></span><span class="brams-status">Leer</span></li></ul></div>
+              <article id="list-group" class="brams-card brams-catalog-component brams-catalog-component--span-7" data-brams-demo-state="static" data-brams-demo-input="static" data-brams-demo-api=".brams-list">
+                <header class="brams-card__header brams-catalog-component__header"><div><span class="brams-catalog-component__number">42</span><h3 class="brams-card__title">List Group</h3><p class="brams-card__description">Strukturierte Inhaltszeilen mit markiertem aktuellem Eintrag.</p></div><code class="brams-catalog-code">.brams-list</code></header>
+                <div class="brams-catalog-demo"><ul class="brams-list" aria-label="Stationen"><li class="brams-list__item" data-state="current"><span><span class="brams-list__title"><span class="brams-visually-hidden">Aktuelle Station: </span>Station Nord</span><span class="brams-list__meta">8 Module</span></span><span class="brams-status brams-status--success">Online</span></li><li class="brams-list__item"><span><span class="brams-list__title">Station West</span><span class="brams-list__meta">4 Module</span></span><span class="brams-status brams-status--warning">Wartung</span></li><li class="brams-list__item"><span><span class="brams-list__title">Servicekanal</span><span class="brams-list__meta">0 Module</span></span><span class="brams-status">Leer</span></li></ul></div>
               </article>
 
               <article id="description-list" class="brams-card brams-catalog-component brams-catalog-component--span-7" data-brams-demo-state="static" data-brams-demo-input="static" data-brams-demo-api=".brams-description-list">
@@ -361,7 +361,7 @@
           </figure>
 
           <section id="api" class="brams-catalog-section" aria-labelledby="api-title">
-            <header class="brams-catalog-section__header"><div><p class="brams-catalog-section__eyebrow">06 / Public API</p><h2 id="api-title" class="brams-catalog-section__title">JavaScript API</h2></div><span class="brams-catalog-section__count">v0.5.0</span></header>
+            <header class="brams-catalog-section__header"><div><p class="brams-catalog-section__eyebrow">06 / Public API</p><h2 id="api-title" class="brams-catalog-section__title">JavaScript API</h2></div><span class="brams-catalog-section__count">v1.0.0</span></header>
             <div class="brams-card"><div class="brams-card__body"><dl class="brams-description-list"><dt><code>Brams.init(root)</code></dt><dd>Idempotente Initialisierung für dynamisches Markup.</dd><dt><code>Brams.open(target)</code></dt><dd>Öffnet Dialog, Drawer oder Popover.</dd><dt><code>Brams.close(target)</code></dt><dd>Schließt das Ziel und stellt den Fokus wieder her.</dd><dt><code>Brams.toast(options)</code></dt><dd>Erzeugt eine Live-Region-Meldung und gibt ihr Element zurück.</dd></dl></div></div>
           </section>
 
@@ -558,7 +558,7 @@ Brams.open("#drawer");
 <div class="brams-stat"><span class="brams-stat__label">Aktive Module</span><strong class="brams-stat__value">128</strong></div>
         </template>
         <template data-brams-demo-snippet="list-group" data-language="html">
-<ul class="brams-list"><li class="brams-list__item" aria-selected="true"><span class="brams-list__title">Station Nord</span></li></ul>
+<ul class="brams-list"><li class="brams-list__item" data-state="current"><span class="brams-list__title"><span class="brams-visually-hidden">Aktuelle Station: </span>Station Nord</span></li></ul>
         </template>
         <template data-brams-demo-snippet="description-list" data-language="html">
 <dl class="brams-description-list"><dt>Modell</dt><dd>Systemmodul B7</dd><dt>Firmware</dt><dd>2.4.1</dd></dl>
@@ -569,7 +569,7 @@ Brams.open("#drawer");
       </div>
     </main>
 
-    <footer class="brams-catalog-footer"><div class="brams-shell brams-cluster"><span>Brams v0.5.0 · MIT</span><a href="#top">Nach oben</a></div></footer>
+    <footer class="brams-catalog-footer"><div class="brams-shell brams-cluster"><span>Brams v1.0.0 · MIT</span><a href="#top">Nach oben</a></div></footer>
 
     <div id="confirm-dialog" class="brams-overlay" aria-hidden="true" hidden tabindex="-1">
       <section class="brams-dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-description">
@@ -580,13 +580,13 @@ Brams.open("#drawer");
     </div>
 
     <div id="settings-drawer" class="brams-drawer-overlay" aria-hidden="true" hidden tabindex="-1">
-      <aside class="brams-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+      <section class="brams-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
         <header class="brams-dialog__header"><div><h2 id="drawer-title" class="brams-dialog__title">Schnelleinstellungen</h2><p class="brams-dialog__description">Änderungen gelten für Modul 07.</p></div><button class="brams-icon-button brams-icon-button--quiet" type="button" data-brams-close aria-label="Drawer schließen"><svg class="brams-icon" aria-hidden="true"><use href="icons.svg#close"></use></svg></button></header>
         <div class="brams-dialog__body brams-stack"><label class="brams-field"><span class="brams-field__label">Modulname</span><input class="brams-input" value="Modul 07" /></label><div class="brams-switch-field"><span>Automatische Updates</span><button class="brams-switch" type="button" role="switch" aria-checked="true" aria-label="Automatische Updates"><span class="brams-switch__thumb"></span></button></div></div>
         <footer class="brams-dialog__footer"><button class="brams-button brams-button--primary" type="button" data-brams-close>Fertig</button></footer>
-      </aside>
+      </section>
     </div>
 
-    <div class="brams-toast-region" aria-label="Benachrichtigungen" aria-live="polite"></div>
+    <div class="brams-toast-region" role="region" aria-label="Benachrichtigungen" aria-live="polite"></div>
   </body>
 </html>

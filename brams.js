@@ -1,9 +1,10 @@
 (function () {
   "use strict";
 
-  const VERSION = "0.5.0";
+  const VERSION = "1.0.0";
   const initialized = new WeakMap();
   const openLayers = [];
+  const modalIsolationState = new Map();
   let globalListenersReady = false;
 
   const selector = {
@@ -59,6 +60,29 @@
     return element.matches(selector.modalLayer);
   }
 
+  function syncModalIsolation() {
+    const activeModal = [...openLayers].reverse().find((item) => isModal(item) && item.isConnected && !item.hidden);
+    const isolationTargets = new Set();
+    let activeBranch = activeModal;
+
+    while (activeBranch && activeBranch !== document.body) {
+      [...activeBranch.parentElement.children].forEach((sibling) => {
+        if (sibling !== activeBranch && !sibling.hasAttribute("aria-live")) isolationTargets.add(sibling);
+      });
+      activeBranch = activeBranch.parentElement;
+    }
+
+    new Set([...modalIsolationState.keys(), ...isolationTargets]).forEach((element) => {
+      if (isolationTargets.has(element) && !modalIsolationState.has(element)) {
+        modalIsolationState.set(element, element.inert);
+        element.inert = true;
+      } else if (!isolationTargets.has(element) && modalIsolationState.has(element)) {
+        element.inert = modalIsolationState.get(element);
+        modalIsolationState.delete(element);
+      }
+    });
+  }
+
   function visibleFocusable(container) {
     return [...container.querySelectorAll(selector.focusable)].filter((item) => {
       return !item.hidden && item.getAttribute("aria-hidden") !== "true" && item.getClientRects().length > 0;
@@ -108,6 +132,7 @@
 
     if (isModal(layer)) {
       document.body.classList.add("brams-scroll-locked");
+      syncModalIsolation();
       requestAnimationFrame(() => {
         const preferred = layer.querySelector("[autofocus]");
         const focusable = visibleFocusable(layer);
@@ -139,6 +164,7 @@
     if (!openLayers.some((item) => isModal(item) && !item.hidden)) {
       document.body.classList.remove("brams-scroll-locked");
     }
+    syncModalIsolation();
     if (settings.restoreFocus && layer.__bramsRestoreFocus && layer.__bramsRestoreFocus.isConnected) {
       requestAnimationFrame(() => layer.__bramsRestoreFocus.focus({ preventScroll: true }));
     }
@@ -617,6 +643,7 @@
     if (!region) {
       region = document.createElement("div");
       region.className = "brams-toast-region";
+      region.setAttribute("role", "region");
       region.setAttribute("aria-label", "Benachrichtigungen");
       region.setAttribute("aria-live", "polite");
       document.body.append(region);
