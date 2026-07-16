@@ -34,6 +34,7 @@ test("loads 44 components and three local fonts without decorative image assets"
   await expect(page.locator(".brams-service")).toHaveCount(1);
   await expect(page.locator(".brams-catalog-component")).toHaveCount(44);
   await expect(page.locator(".brams-catalog-component__number").last()).toHaveText("44");
+  await expect(page.locator("#switch .brams-switch-field").first()).toHaveText("Fernzugriff Verbindung von außerhalb zulassen.");
   expect(fontResponses.sort((a, b) => a.pathname.localeCompare(b.pathname))).toEqual([
     { pathname: "/fonts/Archivo-Medium.woff2", status: 200 },
     { pathname: "/fonts/Archivo-Regular.woff2", status: 200 },
@@ -175,6 +176,28 @@ test("tabs, segmented control and menu implement keyboard models", async ({ page
   await page.getByRole("menuitem", { name: "Löschen" }).press("Escape");
   await expect(page.locator("#device-menu")).toBeHidden();
   await expect(menuTrigger).toBeFocused();
+});
+
+test("process stepper disables navigation at both endpoints", async ({ page }) => {
+  const process = page.locator("#process-demo");
+  const previous = page.locator("#process-stepper [data-brams-step-action='previous']");
+  const next = page.locator("#process-stepper [data-brams-step-action='next']");
+
+  await expect(process).toHaveAttribute("data-step", "1");
+  await expect(previous).toBeEnabled();
+  await expect(next).toBeEnabled();
+
+  await next.click();
+  await expect(process).toHaveAttribute("data-step", "2");
+  await expect(process.locator(".brams-stepper__item").nth(2)).toHaveAttribute("aria-current", "step");
+  await expect(next).toBeDisabled();
+
+  await previous.click();
+  await previous.click();
+  await expect(process).toHaveAttribute("data-step", "0");
+  await expect(process.locator(".brams-stepper__item").first()).toHaveAttribute("aria-current", "step");
+  await expect(previous).toBeDisabled();
+  await expect(next).toBeEnabled();
 });
 
 test("accordion and form controls expose native and ARIA state", async ({ page }) => {
