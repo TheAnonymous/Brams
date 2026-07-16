@@ -2,6 +2,20 @@
 
 Alle relevanten Änderungen an Brams werden in dieser Datei dokumentiert. Das Projekt folgt ab v1.0.0 der semantischen Versionierung.
 
+## 1.1.0 — 2026-07-16
+
+### Formensprache
+
+- Katalog-Hero, Systemübersicht und Service-Studie sind vollständig aus semantischem HTML und CSS konstruiert; acht dekorative WebP-Leitmotive entfallen.
+- Ein code-natives Kontrollinstrument, ein durchgehendes zwölfspaltiges Ordnungsraster und quadratische Geometrie tragen die digitale Rams-Formensprache jetzt über alle Katalogebenen.
+- Die sieben Katalogbereiche teilen sich eine kompakte, sticky Referenzleiste; Desktop, Tablet, 390-px-Mobile und 320-px-Minimum besitzen geprüfte eigenständige Kompositionen.
+
+### Qualität und Kompatibilität
+
+- Alle 44 Komponenten, BEM-Klassen, deklarativen `data-brams-*`-Hooks und Methoden der globalen JavaScript-API bleiben kompatibel.
+- Aktualisierte Chromium-Snapshots decken Gesamtkatalog, Kontrollinstrument, Systemübersicht, Komponentenfinder, Codepanels, Overlays und Service-Studie ab.
+- Der Katalog lädt weiterhin ausschließlich lokale Schriften und den lokalen SVG-Sprite, nun ohne dekorative Rasterbilder oder externe Requests.
+
 ## 1.0.0 — 2026-07-16
 
 ### Stabil

@@ -1,5 +1,4 @@
 const { test, expect } = require("@playwright/test");
-const { readdir } = require("node:fs/promises");
 const { version: packageVersion } = require("../package.json");
 
 const pageLoadResults = new WeakMap();
@@ -28,14 +27,11 @@ test.beforeEach(async ({ page }) => {
   await page.evaluate(() => document.fonts.ready);
 });
 
-test("loads 44 components, three local fonts and exactly eight local images", async ({ page }) => {
+test("loads 44 components and three local fonts without decorative image assets", async ({ page }) => {
   const { errors, external, fontResponses, imageResponses } = pageLoadResults.get(page);
-  const catalogAssets = page.locator("[data-brams-catalog-asset]");
-  await expect(catalogAssets).toHaveCount(8);
-  await catalogAssets.evaluateAll((images) => images.forEach((image) => { image.loading = "eager"; }));
-  await expect.poll(() => catalogAssets.evaluateAll((images) => {
-    return images.map((image) => image.complete && image.naturalWidth > 0 && image.naturalHeight > 0);
-  }), { timeout: 15_000 }).toEqual(Array(8).fill(true));
+  await expect(page.locator("img")).toHaveCount(0);
+  await expect(page.locator(".brams-instrument")).toHaveCount(1);
+  await expect(page.locator(".brams-service")).toHaveCount(1);
   await expect(page.locator(".brams-catalog-component")).toHaveCount(44);
   await expect(page.locator(".brams-catalog-component__number").last()).toHaveText("44");
   expect(fontResponses.sort((a, b) => a.pathname.localeCompare(b.pathname))).toEqual([
@@ -43,22 +39,7 @@ test("loads 44 components, three local fonts and exactly eight local images", as
     { pathname: "/fonts/Archivo-Regular.woff2", status: 200 },
     { pathname: "/fonts/Archivo-SemiBold.woff2", status: 200 },
   ]);
-  const expectedImages = [
-    "brams-action-module.webp",
-    "brams-control-unit.webp",
-    "brams-data-instrument.webp",
-    "brams-interaction-study.webp",
-    "brams-material-study.webp",
-    "brams-signal-study.webp",
-    "brams-system-family.webp",
-    "brams-wayfinding-study.webp",
-  ];
-  expect((await readdir("assets")).filter((file) => file.endsWith(".webp")).sort()).toEqual(expectedImages);
-  expect([...new Map(imageResponses.map((result) => [result.pathname, result])).values()]
-    .sort((a, b) => a.pathname.localeCompare(b.pathname))).toEqual(expectedImages.map((file) => ({
-    pathname: `/assets/${file}`,
-    status: 200,
-  })));
+  expect(imageResponses).toEqual([]);
   expect(errors).toEqual([]);
   expect(external).toEqual([]);
 });
@@ -86,6 +67,12 @@ test("uses Archivo for UI hierarchy and reserves mono for technical values", asy
       ".brams-catalog-finder__number",
       ".brams-catalog-finder__spec",
       ".brams-catalog-spec code",
+      ".brams-instrument",
+      ".brams-catalog-metrics",
+      ".brams-catalog-system__label",
+      ".brams-catalog-system__index",
+      ".brams-catalog-nav",
+      ".brams-service",
     ].join(",");
     const unexpectedMono = [...document.querySelectorAll("body *")]
       .filter((element) => getComputedStyle(element).fontFamily.includes("monospace") && !element.closest(monoScope))
@@ -131,7 +118,7 @@ test("uses Archivo for UI hierarchy and reserves mono for technical values", asy
   expect(typography.families.metric).toContain("Archivo");
   expect(typography.families.rangeValue).toContain("monospace");
   expect(typography.families.sectionCount).toContain("monospace");
-  expect(typography.weights).toEqual({ body: "400", heading: "500", button: "600", strong: "600" });
+  expect(typography.weights).toEqual({ body: "400", heading: "500", button: "600", strong: "500" });
   expect(typography.numericVariants).toEqual({
     rangeValue: "tabular-nums",
     sectionCount: "tabular-nums",
@@ -355,12 +342,12 @@ test("focus, disabled, invalid and reduced-motion states are present", async ({ 
   expect(motion).toEqual({ animation: "none", transition: "0s" });
 });
 
-test("v1.0.0 visual contracts use black actions, reduced radii and shadowless cards", async ({ page }) => {
+test("v1.1.0 visual contracts use black actions, square geometry and code-native studies", async ({ page }) => {
   const styles = await page.evaluate(() => {
     const primary = getComputedStyle(document.querySelector(".brams-button--primary"));
     const card = getComputedStyle(document.querySelector(".brams-catalog-component"));
     const heroStage = document.querySelector(".brams-catalog-hero__stage");
-    const heroProduct = document.querySelector(".brams-catalog-hero__product");
+    const instrument = document.querySelector(".brams-instrument");
     return {
       primaryBackground: primary.backgroundColor,
       cardRadius: card.borderRadius,
@@ -368,17 +355,19 @@ test("v1.0.0 visual contracts use black actions, reduced radii and shadowless ca
       allCardsShadowless: [...document.querySelectorAll(".brams-card")]
         .every((element) => getComputedStyle(element).boxShadow === "none"),
       heroStageChildren: heroStage.children.length,
-      heroProductPosition: getComputedStyle(heroProduct).position,
+      instrumentDisplayRows: instrument.querySelectorAll(".brams-instrument__channel").length,
+      instrumentKeys: instrument.querySelectorAll(".brams-instrument__keys span").length,
     };
   });
 
   expect(styles).toEqual({
     primaryBackground: "rgb(17, 17, 15)",
-    cardRadius: "2px",
+    cardRadius: "0px",
     cardShadow: "none",
     allCardsShadowless: true,
     heroStageChildren: 1,
-    heroProductPosition: "static",
+    instrumentDisplayRows: 2,
+    instrumentKeys: 8,
   });
 });
 
