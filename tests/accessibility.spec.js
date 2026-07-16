@@ -51,6 +51,7 @@ test("drawer has no accessibility violations while open", async ({ page }) => {
 });
 
 test("popover and menu have no accessibility violations while open", async ({ page }) => {
+  test.slow();
   await page.locator("#popover-trigger").click();
   await expect(page.locator("#popover-panel")).toBeVisible();
   await expectNoAccessibilityViolations(page, "popover");

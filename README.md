@@ -1,4 +1,4 @@
-# Brams v1.0.0
+# Brams v1.1.0
 
 Brams ist eine dependency-freie Vanilla-CSS/JavaScript-Library für sachliche, robuste Produktoberflächen. Der technische Light-Theme-Stil folgt einer digitalen Rams-Formensprache: Gebrauchswert, Ordnung, Verständlichkeit und Zurückhaltung stehen vor Dekoration.
 
@@ -32,7 +32,7 @@ Brams wird bis auf Weiteres nicht über npm veröffentlicht. Lade ein versionier
 | `icons.svg` | Lokaler SVG-Sprite |
 | `fonts/` | Archivo-Schnitte und OFL-Lizenz |
 
-`index.html`, `catalog.js`, `assets/` und `tests/` gehören zum Showcase beziehungsweise zur Entwicklung und sind keine Runtime-Abhängigkeiten. Insbesondere sind `catalog.js` und alle `data-brams-demo-*`-Hooks nicht Teil der stabilen Library-API.
+`index.html`, `catalog.js` und `tests/` gehören zum Showcase beziehungsweise zur Entwicklung und sind keine Runtime-Abhängigkeiten. Insbesondere sind `catalog.js` und alle `data-brams-demo-*`-Hooks nicht Teil der stabilen Library-API.
 
 ## Komponentenindex
 
@@ -101,16 +101,16 @@ Die Gewichtssystematik bleibt bewusst ruhig: Fließtext und Eingaben nutzen 400,
 
 Archivo steht unter der SIL Open Font License 1.1. Copyright und vollständiger Lizenztext werden separat unter [`fonts/OFL.txt`](fonts/OFL.txt) mitgeliefert. Die übrige Library bleibt unter der MIT-Lizenz dieses Repositories.
 
-## Formensprache v1.0.0
+## Formensprache v1.1.0
 
 - Warme Off-White-Flächen, technisches Grau und tiefes Schwarz bilden die Grundpalette. Rot ist Fehlern, Gefahr, Aufnahme und kleinen Betriebssignalen vorbehalten.
-- Primäraktionen sind schwarz. Radien bleiben bei 0–2 px; nur funktional runde Elemente wie Statuslampen, Dials, Avatare und Switch-Knöpfe sind kreisförmig.
+- Primäraktionen sind schwarz. Planare Komponenten bleiben bei 0 px; nur funktional runde Elemente wie Statuslampen, Dials, Avatare und Switch-Knöpfe sind kreisförmig.
 - Standard-Cards bleiben schattenlos und werden durch Haarlinien, Flächenstufen und das zwölfspaltige Katalograster gegliedert. Nur räumliche Overlays erhalten Schatten.
 - Archivo trägt die Oberfläche als lokal eingebundene Grotesk. Monospace ist funktionalen technischen Werten und Anzeigen vorbehalten.
 - Success und Warning erscheinen auf neutralen Flächen mit grünen beziehungsweise bernsteinfarbenen Kontrollleuchten und zugänglichem Text.
 - Hover, Fokus, Pressed, Selected und Disabled folgen einem gemeinsamen mechanischen Zustandsmodell. Interaktive Taster bewegen sich beim Drücken um genau einen Pixel; native Checkboxen und Radios behalten ihre Semantik und erhalten dieselbe ruhige Formensprache.
 - Das zwölfspaltige Katalograster verwendet explizit kuratierte 5/7-, 7/5- und Vollbreitenpaare. Unterhalb von 56rem wechselt es bewusst in eine einspaltige Dokumentationsansicht.
-- Acht lokale Leitmotive verbinden Hero, Systemfamilie, die fünf Komponentenkapitel und den Abschluss „Material & Service“. Weitere Rasterbilder oder externe Requests gibt es nicht.
+- Hero, Systemübersicht und „Material & Service“ sind vollständig aus HTML und CSS konstruiert. Es gibt keine dekorativen Rasterbilder und keine externen Requests; die Formensprache wird durch Funktion, Maßstab und echte Zustände erklärt.
 - Bei `prefers-reduced-motion: reduce` bleiben sämtliche Übergänge und Animationen vollständig ruhig.
 
 ## Katalogwerkzeuge
@@ -214,7 +214,7 @@ BRAMS_TEST_WORKERS=4 BRAMS_TEST_PORT=4317 npm test
 
 Die Suite prüft unter Chromium, Firefox und WebKit unter anderem:
 
-- Laden ohne Konsolenfehler oder externe Requests, 44 vorhandene Katalogeinträge und exakt acht erfolgreiche lokale Bildladungen
+- Laden ohne Konsolenfehler oder externe Requests, 44 vorhandene Katalogeinträge, drei lokale Schriftschnitte und keine dekorativen Bild-Assets
 - idempotente Initialisierung, ARIA-Zustände und Tastaturmodelle
 - Fokusfalle, Escape, Backdrop, Scroll-Lock und Fokuswiederherstellung
 - Toast, Range, Number Stepper, Password, Dateiauswahl, Pagination und Tabellensortierung
@@ -222,9 +222,9 @@ Die Suite prüft unter Chromium, Firefox und WebKit unter anderem:
 - Fokusdarstellung, WCAG-AA-Kontrast, Reduced Motion, Disabled-/Invalid-Zustände und visuelle Chromium-Snapshots
 - genau eine vollständige `STATE`/`INPUT`/`API`-Spezifikationszeile je Komponente sowie Finder-Suche über diese Metadaten, Diakritika, Tastaturnavigation, Hash/Fokus und schmale Auto-Scrolling-Navigation
 - vollständige Snippet-Abdeckung, unabhängige Codepanels, Clipboard- und sichtbarer manueller Fallback
-- v1.0.0-Tokens, lokale Archivo-Schnitte, schwarze Primäraktionen, reduzierte Radien, schattenlose Standard-Cards, native Checkboxen/Radios und beide Pagination-Klassen
+- v1.1.0-Tokens, lokale Archivo-Schnitte, schwarze Primäraktionen, quadratische Geometrie, schattenlose Standard-Cards, native Checkboxen/Radios und beide Pagination-Klassen
 - Zustandsmatrix für Buttons, Icon Buttons, Tabs, Segmente, Pagination, Checkbox, Radio, Switch und Eingaben unter Chromium, Firefox und WebKit
-- Chromium-Gesamtkataloge bei 1440px, 1024px, 768px, 390px und 320px sowie Detailaufnahmen von Finder, Codepanel, Hero-Motiv, Kapitelankern und Materialabschluss
+- Chromium-Gesamtkataloge bei 1440px, 1024px, 768px, 390px und 320px sowie Detailaufnahmen von Finder, Codepanel, Kontrollinstrument, Systemübersicht und Service-Abschluss
 
 Chromium-Snapshots werden bewusst aktualisiert mit:
 
@@ -252,4 +252,4 @@ Ab v1.0.0 folgt Brams der semantischen Versionierung. Änderungen an der stabile
 
 ## Browser
 
-Unterstützt werden aktuelle Versionen von Chromium, Firefox und WebKit. v1.0.0 bewahrt die BEM-Klassen, `data-brams-*`-Hooks und die öffentliche JavaScript-API aus v0.3 bis v0.5. Neue Layout-, Spezifikations- und `data-brams-demo-*`-Hooks bleiben bewusst außerhalb dieser Kompatibilitätszusage.
+Unterstützt werden aktuelle Versionen von Chromium, Firefox und WebKit. v1.1.0 bewahrt die BEM-Klassen, `data-brams-*`-Hooks und die öffentliche JavaScript-API aus v0.3 bis v1.0. Neue Layout-, Spezifikations- und `data-brams-demo-*`-Hooks bleiben bewusst außerhalb dieser Kompatibilitätszusage.

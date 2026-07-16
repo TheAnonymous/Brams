@@ -2,11 +2,6 @@ const { test, expect } = require("@playwright/test");
 
 async function prepareCatalog(page) {
   await page.evaluate(() => document.fonts.ready);
-  const assets = page.locator("[data-brams-catalog-asset]");
-  await assets.evaluateAll((images) => images.forEach((image) => { image.loading = "eager"; }));
-  await expect.poll(() => assets.evaluateAll((images) => images.every((image) => image.complete && image.naturalWidth > 0)), {
-    timeout: 15_000,
-  }).toBe(true);
   await page.evaluate(async () => {
     window.scrollTo(0, 0);
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
@@ -58,19 +53,17 @@ test("open component finder and code panel", async ({ page, browserName }) => {
   await expect(page.locator("#button")).toHaveScreenshot("code-panel.png");
 });
 
-test("system and chapter motif details", async ({ page, browserName }) => {
+test("system language and component details", async ({ page, browserName }) => {
   test.skip(browserName !== "chromium", "Visual baseline is maintained in Chromium.");
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
   await prepareCatalog(page);
   await expect(page.locator(".brams-catalog-hero")).toHaveScreenshot("catalog-hero.png");
-  await expect(page.locator(".brams-catalog-material").first()).toHaveScreenshot("system-family.png");
-  for (const [index, name] of ["action-module", "interaction-study", "wayfinding-study", "signal-study", "data-instrument"].entries()) {
-    await expect(page.locator(".brams-catalog-study").nth(index)).toHaveScreenshot(`${name}.png`);
-  }
+  await expect(page.locator(".brams-catalog-system")).toHaveScreenshot("system-language.png");
+  await expect(page.locator(".brams-instrument")).toHaveScreenshot("control-instrument.png");
   await expect(page.locator("#button")).toHaveScreenshot("button-states.png");
   await expect(page.locator("#checkbox")).toHaveScreenshot("native-controls.png");
-  await expect(page.locator("#material")).toHaveScreenshot("material-service.png");
+  await expect(page.locator(".brams-service")).toHaveScreenshot("material-service.png");
 });
 
 test("open modal and drawer states", async ({ page, browserName }) => {

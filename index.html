@@ -3,16 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Brams v1.0.0 – 44 dependency-freie, zugängliche CSS- und JavaScript-Komponenten für präzise technische Produktoberflächen." />
+    <meta name="description" content="Brams v1.1.0 – 44 dependency-freie, zugängliche CSS- und JavaScript-Komponenten für präzise technische Produktoberflächen." />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Brams v1.0.0 — Komponenten-Katalog" />
+    <meta property="og:title" content="Brams v1.1.0 — Komponenten-Katalog" />
     <meta property="og:description" content="44 präzise, dependency-freie Komponenten für robuste Produktoberflächen." />
     <meta property="og:url" content="https://theanonymous.github.io/Brams/" />
-    <meta property="og:image" content="https://theanonymous.github.io/Brams/assets/brams-material-study.webp" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <title>Brams v1.0.0 — Komponenten-Katalog</title>
+    <meta name="twitter:card" content="summary" />
+    <title>Brams v1.1.0 — Komponenten-Katalog</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%23b92f26'/%3E%3C/svg%3E" />
-    <link rel="preload" as="image" href="assets/brams-control-unit.webp" fetchpriority="high" />
     <link rel="stylesheet" href="brams.css" />
     <script src="brams.js" defer></script>
     <script src="catalog.js" defer></script>
@@ -25,7 +23,7 @@
           <a href="#grundlagen">Komponenten</a>
           <a href="#api">API</a>
           <a href="README.md">Dokumentation</a>
-          <span class="brams-badge brams-badge--accent">v1.0.0</span>
+          <span class="brams-badge brams-badge--accent">v1.1.0</span>
         </nav>
       </div>
     </header>
@@ -37,8 +35,21 @@
           <h1 id="catalog-title" class="brams-catalog-hero__title">Präzision<br />im Betrieb.</h1>
           <p class="brams-catalog-hero__lead">44 ruhige Module für Stationen, Kanäle und Systemzustände. Vanilla CSS, zugängliches JavaScript und kein Produktions-Build.</p>
         </div>
-        <div class="brams-catalog-hero__stage">
-          <img class="brams-catalog-hero__product" src="assets/brams-control-unit.webp" alt="Elfenbeinfarbene Brams-Kontrolleinheit mit schwarzer Anzeige, Aluminiumregler und roter Signalleuchte" width="960" height="1200" fetchpriority="high" decoding="async" data-brams-catalog-asset />
+        <div class="brams-catalog-hero__stage" role="img" aria-label="Systemstudie mit zwei Pegelskalen, zwei Reglern, acht Funktionstasten und einer roten Betriebsleuchte">
+          <div class="brams-instrument" aria-hidden="true">
+            <div class="brams-instrument__display">
+              <div class="brams-instrument__channel"><span class="brams-instrument__channel-label">CH A<br />LEVEL</span><div class="brams-instrument__scale"><div class="brams-instrument__scale-labels"><span>−40</span><span>−20</span><span>0</span><span>+20</span></div><div class="brams-instrument__ticks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div><span>dB</span></div>
+              <div class="brams-instrument__channel"><span class="brams-instrument__channel-label">CH B<br />LEVEL</span><div class="brams-instrument__scale"><div class="brams-instrument__scale-labels"><span>−40</span><span>−20</span><span>0</span><span>+20</span></div><div class="brams-instrument__ticks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div><span>dB</span></div>
+            </div>
+            <div class="brams-instrument__controls">
+              <div class="brams-instrument__dials">
+                <div class="brams-instrument__dial-group"><div class="brams-instrument__dial"><span></span></div><div class="brams-instrument__dial-values"><span>0</span><span>10</span></div><small>CH A</small></div>
+                <div class="brams-instrument__dial-group"><div class="brams-instrument__dial"><span></span></div><div class="brams-instrument__dial-values"><span>0</span><span>10</span></div><small>CH B</small></div>
+              </div>
+              <div class="brams-instrument__keys"><span>AUTO</span><span>HOLD</span><span>SOLO</span><span>MUTE</span><span>MENU</span><span>−</span><span>+</span><span>ENTER</span></div>
+            </div>
+            <div class="brams-instrument__power"><span>POWER</span><i></i></div>
+          </div>
         </div>
       </section>
 
@@ -49,10 +60,11 @@
         <div class="brams-catalog-metrics__item"><span>04 / Motion</span><strong>Reduced motion</strong></div>
       </section>
 
-      <figure class="brams-catalog-material">
-        <img src="assets/brams-system-family.webp" alt="Familienporträt aus fünf elfenbeinfarbenen Brams-Bediengeräten mit schwarzen Anzeigen, Aluminiumreglern und roten Signaldetails" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-        <figcaption><span>Studie 01</span><span>System · Familie</span></figcaption>
-      </figure>
+      <section class="brams-catalog-system" aria-labelledby="system-title">
+        <p class="brams-catalog-system__label">System</p>
+        <div class="brams-catalog-system__copy"><h2 id="system-title">Gemeinsame Komponentensprache</h2><p>44 Module folgen einer Sprache aus klaren Zuständen, verlässlicher Interaktion und technischer Präzision.</p></div>
+        <ol class="brams-catalog-system__index" aria-label="Komponentengruppen"><li><span>01</span>Grundlagen<strong>08</strong></li><li><span>02</span>Formulare<strong>13</strong></li><li><span>03</span>Navigation<strong>06</strong></li><li><span>04</span>Feedback<strong>12</strong></li><li><span>05</span>Daten<strong>05</strong></li></ol>
+      </section>
 
       <div class="brams-catalog-layout">
         <nav class="brams-sidenav brams-catalog-nav" aria-label="Komponentenkategorien" data-brams-demo-catalog-nav>
@@ -135,11 +147,6 @@
             </div>
           </section>
 
-          <figure class="brams-catalog-study">
-            <img src="assets/brams-action-module.webp" alt="Elfenbeinfarbenes Aktionsmodul mit drei schwarzen Tasten, heller Taste und geschütztem rotem Auslöser" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-            <figcaption><span>Studie 02</span><span>Auslösen · Bestätigen</span></figcaption>
-          </figure>
-
           <section id="formulare" class="brams-catalog-section" aria-labelledby="formulare-title">
             <header class="brams-catalog-section__header"><div><p class="brams-catalog-section__eyebrow">02 / Input</p><h2 id="formulare-title" class="brams-catalog-section__title">Formulare</h2></div><span class="brams-catalog-section__count">09—21</span></header>
             <div class="brams-catalog-grid">
@@ -210,11 +217,6 @@
             </div>
           </section>
 
-          <figure class="brams-catalog-study">
-            <img src="assets/brams-interaction-study.webp" alt="Interaktionsstudie mit schwarzer Taste, Aluminium-Schieberegler, roter Signalleuchte und Kippschalter" width="1800" height="600" decoding="async" data-brams-catalog-asset />
-            <figcaption><span>Studie 03</span><span>Eingabe · Zustand</span></figcaption>
-          </figure>
-
           <section id="navigation" class="brams-catalog-section" aria-labelledby="navigation-title">
             <header class="brams-catalog-section__header"><div><p class="brams-catalog-section__eyebrow">03 / Wayfinding</p><h2 id="navigation-title" class="brams-catalog-section__title">Navigation</h2></div><span class="brams-catalog-section__count">22—27</span></header>
             <div class="brams-catalog-grid">
@@ -249,11 +251,6 @@
               </article>
             </div>
           </section>
-
-          <figure class="brams-catalog-study">
-            <img src="assets/brams-wayfinding-study.webp" alt="Kreuzförmige schwarze Führungen mit Aluminiumwähler, hellen Rastpunkten und roter Positionsleuchte" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-            <figcaption><span>Studie 04</span><span>Position · Route</span></figcaption>
-          </figure>
 
           <section id="feedback" class="brams-catalog-section" aria-labelledby="feedback-title">
             <header class="brams-catalog-section__header"><div><p class="brams-catalog-section__eyebrow">04 / Response</p><h2 id="feedback-title" class="brams-catalog-section__title">Feedback &amp; Overlays</h2></div><span class="brams-catalog-section__count">28—39</span></header>
@@ -320,11 +317,6 @@
             </div>
           </section>
 
-          <figure class="brams-catalog-study">
-            <img src="assets/brams-signal-study.webp" alt="Signalstudie mit schwarzer Matrixanzeige, Lochgitter, Aluminiumverschlüssen und roter Kontrollleuchte" width="1800" height="600" decoding="async" data-brams-catalog-asset />
-            <figcaption><span>Studie 05</span><span>Signal · Rückmeldung</span></figcaption>
-          </figure>
-
           <section id="daten" class="brams-catalog-section" aria-labelledby="daten-title">
             <header class="brams-catalog-section__header"><div><p class="brams-catalog-section__eyebrow">05 / Information</p><h2 id="daten-title" class="brams-catalog-section__title">Daten &amp; Inhalte</h2></div><span class="brams-catalog-section__count">40—44</span></header>
             <div class="brams-catalog-grid">
@@ -355,22 +347,19 @@
             </div>
           </section>
 
-          <figure class="brams-catalog-study">
-            <img src="assets/brams-data-instrument.webp" alt="Kompaktes elfenbeinfarbenes Messgerät mit schwarzer Rasteranzeige, roter Datenlinie und Aluminiumregler" width="1200" height="900" loading="lazy" decoding="async" data-brams-catalog-asset />
-            <figcaption><span>Studie 06</span><span>Messen · Ordnen</span></figcaption>
-          </figure>
-
           <section id="api" class="brams-catalog-section" aria-labelledby="api-title">
-            <header class="brams-catalog-section__header"><div><p class="brams-catalog-section__eyebrow">06 / Public API</p><h2 id="api-title" class="brams-catalog-section__title">JavaScript API</h2></div><span class="brams-catalog-section__count">v1.0.0</span></header>
+            <header class="brams-catalog-section__header"><div><p class="brams-catalog-section__eyebrow">06 / Public API</p><h2 id="api-title" class="brams-catalog-section__title">JavaScript API</h2></div><span class="brams-catalog-section__count">v1.1.0</span></header>
             <div class="brams-card"><div class="brams-card__body"><dl class="brams-description-list"><dt><code>Brams.init(root)</code></dt><dd>Idempotente Initialisierung für dynamisches Markup.</dd><dt><code>Brams.open(target)</code></dt><dd>Öffnet Dialog, Drawer oder Popover.</dd><dt><code>Brams.close(target)</code></dt><dd>Schließt das Ziel und stellt den Fokus wieder her.</dd><dt><code>Brams.toast(options)</code></dt><dd>Erzeugt eine Live-Region-Meldung und gibt ihr Element zurück.</dd></dl></div></div>
           </section>
 
           <section id="material" class="brams-catalog-section brams-catalog-section--closing" aria-labelledby="material-title">
             <header class="brams-catalog-section__header"><div><p class="brams-catalog-section__eyebrow">07 / Material &amp; Service</p><h2 id="material-title" class="brams-catalog-section__title">Material &amp; Service</h2></div><span class="brams-catalog-section__count">Studie 07</span></header>
-            <figure class="brams-catalog-material brams-catalog-material--closing">
-              <img src="assets/brams-material-study.webp" alt="Makroaufnahme einer elfenbeinfarbenen Bedienfläche mit Aluminiumregler, Skala und roter Signalleuchte" width="1800" height="600" loading="lazy" decoding="async" data-brams-catalog-asset />
-              <figcaption><span>Studie 07</span><span>Material · Wartung</span></figcaption>
-            </figure>
+            <div class="brams-service" role="img" aria-label="Wartungsstudie mit Kompatibilitätsskala, Systemregler und Prüfintervall">
+              <div class="brams-service__copy"><p>Lokale Assets. Keine Runtime-Abhängigkeiten. Stabile Klassen und Hooks bleiben über Versionen nachvollziehbar.</p></div>
+              <div class="brams-service__scale"><span>Kompatibilität</span><div><i>v0.3</i><i>v0.5</i><i>v1.0</i><i>v1.x</i></div></div>
+              <div class="brams-service__dial"><span>Systemstabilität</span><div><i></i></div><small>0&nbsp;&nbsp;&nbsp;…&nbsp;&nbsp;&nbsp;10</small></div>
+              <div class="brams-service__interval"><span>Prüfintervall</span><div><i>0</i><i>6</i><i>12</i><i>18</i><i>24</i></div><small><b></b>Nächste Prüfung</small></div>
+            </div>
           </section>
         </div>
       </div>
@@ -569,7 +558,7 @@ Brams.open("#drawer");
       </div>
     </main>
 
-    <footer class="brams-catalog-footer"><div class="brams-shell brams-cluster"><span>Brams v1.0.0 · MIT</span><a href="#top">Nach oben</a></div></footer>
+    <footer class="brams-catalog-footer"><div class="brams-shell brams-cluster"><span>Brams v1.1.0 · MIT</span><a href="#top">Nach oben</a></div></footer>
 
     <div id="confirm-dialog" class="brams-overlay" aria-hidden="true" hidden tabindex="-1">
       <section class="brams-dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-description">
