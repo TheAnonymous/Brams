@@ -1,5 +1,6 @@
 const { test, expect } = require("@playwright/test");
 const { readdir } = require("node:fs/promises");
+const { version: packageVersion } = require("../package.json");
 
 const pageLoadResults = new WeakMap();
 const testOrigin = `http://127.0.0.1:${Number(process.env.BRAMS_TEST_PORT || 4173)}`;
@@ -141,7 +142,7 @@ test("uses Archivo for UI hierarchy and reserves mono for technical values", asy
 });
 
 test("exposes an idempotent public API", async ({ page }) => {
-  await expect.poll(() => page.evaluate(() => window.Brams.VERSION)).toBe("0.5.0");
+  await expect.poll(() => page.evaluate(() => window.Brams.VERSION)).toBe(packageVersion);
   await expect(page.locator("script[src='catalog.js']")).toHaveCount(1);
   expect(await page.evaluate(() => Object.keys(window.Brams).sort())).toEqual(["VERSION", "close", "init", "open", "toast"]);
   await page.evaluate(() => {
@@ -152,6 +153,14 @@ test("exposes an idempotent public API", async ({ page }) => {
   await expect(control).toHaveAttribute("aria-checked", "true");
   await control.click();
   await expect(control).toHaveAttribute("aria-checked", "false");
+});
+
+test("release version is consistent across runtime and catalog surfaces", async ({ page }) => {
+  await expect(page).toHaveTitle(`Brams v${packageVersion} — Komponenten-Katalog`);
+  await expect(page.locator("meta[name='description']")).toHaveAttribute("content", new RegExp(`Brams v${packageVersion}`));
+  await expect(page.locator(".brams-header .brams-badge")).toHaveText(`v${packageVersion}`);
+  await expect(page.locator("#api .brams-catalog-section__count")).toHaveText(`v${packageVersion}`);
+  await expect(page.locator(".brams-catalog-footer")).toContainText(`Brams v${packageVersion}`);
 });
 
 test("tabs, segmented control and menu implement keyboard models", async ({ page }) => {
@@ -198,6 +207,10 @@ test("modal traps focus, closes with Escape and restores focus", async ({ page }
   await trigger.click();
   await expect(page.locator("#confirm-dialog")).toBeVisible();
   await expect(page.locator("body")).toHaveClass(/brams-scroll-locked/);
+  await expect(page.locator("body > header")).toHaveAttribute("inert", "");
+  await expect(page.locator("body > main")).toHaveAttribute("inert", "");
+  await expect(page.locator("body > footer")).toHaveAttribute("inert", "");
+  await expect(page.locator(".brams-toast-region")).not.toHaveAttribute("inert", "");
   await expect(page.locator("#confirm-dialog button").first()).toBeFocused();
 
   const last = page.locator("#confirm-dialog .brams-dialog__footer button").last();
@@ -207,6 +220,9 @@ test("modal traps focus, closes with Escape and restores focus", async ({ page }
   await page.keyboard.press("Escape");
   await expect(page.locator("#confirm-dialog")).toBeHidden();
   await expect(page.locator("body")).not.toHaveClass(/brams-scroll-locked/);
+  await expect(page.locator("body > header")).not.toHaveAttribute("inert", "");
+  await expect(page.locator("body > main")).not.toHaveAttribute("inert", "");
+  await expect(page.locator("body > footer")).not.toHaveAttribute("inert", "");
   await expect(trigger).toBeFocused();
 });
 
@@ -214,9 +230,12 @@ test("modal backdrop and drawer respect the topmost layer", async ({ page }) => 
   await page.locator("#modal-trigger").click();
   await page.evaluate(() => Brams.open("#settings-drawer"));
   await expect(page.locator("#settings-drawer")).toBeVisible();
+  await expect(page.locator("#confirm-dialog")).toHaveAttribute("inert", "");
+  await expect(page.locator("#settings-drawer")).not.toHaveAttribute("inert", "");
   await page.keyboard.press("Escape");
   await expect(page.locator("#settings-drawer")).toBeHidden();
   await expect(page.locator("#confirm-dialog")).toBeVisible();
+  await expect(page.locator("#confirm-dialog")).not.toHaveAttribute("inert", "");
   await page.locator("#confirm-dialog").click({ position: { x: 4, y: 4 } });
   await expect(page.locator("#confirm-dialog")).toBeHidden();
 });
@@ -232,6 +251,41 @@ test("overlay events bubble", async ({ page }) => {
     return names;
   });
   expect(events).toEqual(["open", "close"]);
+});
+
+test("nested modals isolate sibling branches and restore their previous inert state", async ({ page }) => {
+  await page.evaluate(() => {
+    const fixture = document.createElement("div");
+    fixture.id = "nested-modal-fixture";
+    fixture.innerHTML = `
+      <button id="nested-modal-trigger" type="button" data-brams-open="#nested-modal">Öffnen</button>
+      <div id="nested-background">Hintergrund</div>
+      <div id="nested-preinert" inert>Bereits inaktiv</div>
+      <div id="nested-modal" class="brams-overlay" aria-hidden="true" hidden tabindex="-1">
+        <section class="brams-dialog" role="dialog" aria-modal="true" aria-labelledby="nested-modal-title">
+          <h2 id="nested-modal-title">Verschachtelter Dialog</h2>
+          <button type="button" data-brams-close>Schließen</button>
+        </section>
+      </div>`;
+    document.querySelector("main").append(fixture);
+    Brams.init(fixture);
+  });
+
+  await page.locator("#nested-modal-trigger").click();
+  await expect(page.locator("#nested-modal")).toBeVisible();
+  await expect(page.locator("#nested-background")).toHaveAttribute("inert", "");
+  await expect(page.locator("#nested-modal-trigger")).toHaveAttribute("inert", "");
+  await expect(page.locator("#nested-preinert")).toHaveAttribute("inert", "");
+  await expect(page.locator("#nested-modal")).not.toHaveAttribute("inert", "");
+  await expect(page.locator("body > header")).toHaveAttribute("inert", "");
+
+  await page.locator("#nested-modal [data-brams-close]").click();
+  await expect(page.locator("#nested-modal")).toBeHidden();
+  await expect(page.locator("#nested-background")).not.toHaveAttribute("inert", "");
+  await expect(page.locator("#nested-modal-trigger")).not.toHaveAttribute("inert", "");
+  await expect(page.locator("#nested-preinert")).toHaveAttribute("inert", "");
+  await expect(page.locator("body > header")).not.toHaveAttribute("inert", "");
+  await expect(page.locator("#nested-modal-trigger")).toBeFocused();
 });
 
 test("toast, range, number, password, files, pagination and sorting work", async ({ page }) => {
@@ -278,6 +332,9 @@ test("popover and tooltip work with keyboard focus", async ({ page }) => {
   await tooltipTrigger.focus();
   await expect(tooltipTrigger).toBeFocused();
   await expect(page.locator("#tooltip-calibrate")).toBeVisible();
+  await tooltipTrigger.hover();
+  await page.mouse.move(0, 0);
+  await expect(page.locator("#tooltip-calibrate")).toBeVisible();
   await tooltipTrigger.blur();
   await expect(page.locator("#tooltip-calibrate")).toBeHidden();
 });
@@ -298,7 +355,7 @@ test("focus, disabled, invalid and reduced-motion states are present", async ({ 
   expect(motion).toEqual({ animation: "none", transition: "0s" });
 });
 
-test("v0.5.0 visual contracts use black actions, reduced radii and shadowless cards", async ({ page }) => {
+test("v1.0.0 visual contracts use black actions, reduced radii and shadowless cards", async ({ page }) => {
   const styles = await page.evaluate(() => {
     const primary = getComputedStyle(document.querySelector(".brams-button--primary"));
     const card = getComputedStyle(document.querySelector(".brams-catalog-component"));

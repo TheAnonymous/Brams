@@ -1,15 +1,30 @@
 {
   "name": "brams",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Dependency-free industrial UI component catalog",
+  "license": "MIT",
+  "homepage": "https://theanonymous.github.io/Brams/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheAnonymous/Brams.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TheAnonymous/Brams/issues"
+  },
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "preview": "python3 -m http.server 8080",
-    "test": "playwright test",
+    "test": "npm run test:release && playwright test",
+    "test:accessibility": "playwright test tests/accessibility.spec.js",
     "test:chromium": "playwright test --project=chromium",
+    "test:release": "node scripts/verify-release.js",
     "test:update": "playwright test --project=chromium --update-snapshots"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
     "@playwright/test": "^1.61.1"
   }
 }

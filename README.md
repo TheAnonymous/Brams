@@ -1,8 +1,10 @@
-# Brams v0.5.0
+# Brams v1.0.0
 
 Brams ist eine dependency-freie Vanilla-CSS/JavaScript-Library für sachliche, robuste Produktoberflächen. Der technische Light-Theme-Stil folgt einer digitalen Rams-Formensprache: Gebrauchswert, Ordnung, Verständlichkeit und Zurückhaltung stehen vor Dekoration.
 
 **Live-Demo:** [Brams-Komponentenkatalog auf GitHub Pages](https://theanonymous.github.io/Brams/)
+
+[![Quality](https://github.com/TheAnonymous/Brams/actions/workflows/ci.yml/badge.svg)](https://github.com/TheAnonymous/Brams/actions/workflows/ci.yml)
 
 Die Library ist kein offizielles Braun-Produkt und verwendet keine geschützten Braun-Gestaltungselemente.
 
@@ -18,6 +20,19 @@ Es gibt keinen Build-Schritt und keine Runtime-Abhängigkeiten. CSS, JavaScript,
 ```
 
 `icons.svg` muss relativ zu `brams.js` beziehungsweise zum Markup unter `icons.svg#…` erreichbar sein. Der Ordner `fonts/` muss relativ zu `brams.css` erhalten bleiben. Es werden keine Schriften, Icons oder anderen Assets von externen Servern geladen.
+
+## Bezug und Dateigrenzen
+
+Brams wird bis auf Weiteres nicht über npm veröffentlicht. Lade ein versioniertes Archiv unter [GitHub Releases](https://github.com/TheAnonymous/Brams/releases) und übernimm für eine Produktoberfläche nur diese Dateien:
+
+| Pfad | Verwendung |
+| --- | --- |
+| `brams.css` | Design Tokens und Komponentenstile |
+| `brams.js` | Optionale Runtime für interaktive Komponenten |
+| `icons.svg` | Lokaler SVG-Sprite |
+| `fonts/` | Archivo-Schnitte und OFL-Lizenz |
+
+`index.html`, `catalog.js`, `assets/` und `tests/` gehören zum Showcase beziehungsweise zur Entwicklung und sind keine Runtime-Abhängigkeiten. Insbesondere sind `catalog.js` und alle `data-brams-demo-*`-Hooks nicht Teil der stabilen Library-API.
 
 ## Komponentenindex
 
@@ -86,7 +101,7 @@ Die Gewichtssystematik bleibt bewusst ruhig: Fließtext und Eingaben nutzen 400,
 
 Archivo steht unter der SIL Open Font License 1.1. Copyright und vollständiger Lizenztext werden separat unter [`fonts/OFL.txt`](fonts/OFL.txt) mitgeliefert. Die übrige Library bleibt unter der MIT-Lizenz dieses Repositories.
 
-## Formensprache v0.5.0
+## Formensprache v1.0.0
 
 - Warme Off-White-Flächen, technisches Grau und tiefes Schwarz bilden die Grundpalette. Rot ist Fehlern, Gefahr, Aufnahme und kleinen Betriebssignalen vorbehalten.
 - Primäraktionen sind schwarz. Radien bleiben bei 0–2 px; nur funktional runde Elemente wie Statuslampen, Dials, Avatare und Switch-Knöpfe sind kreisförmig.
@@ -128,7 +143,7 @@ Brams.open("#settings-drawer");
 Brams.close(document.querySelector("#settings-drawer"));
 ```
 
-Dialog und Drawer bieten Fokusfalle, Escape- und Backdrop-Schließen, Scroll-Lock und Fokuswiederherstellung. Bei gestapelten Overlays reagiert nur die oberste Ebene. Geöffnete und geschlossene Layer senden bubbling Events:
+Dialog und Drawer bieten Fokusfalle, Escape- und Backdrop-Schließen, Scroll-Lock, Fokuswiederherstellung und eine `inert`-Isolation des Hintergrunds für assistive Technologien. Bei gestapelten Overlays reagiert nur die oberste Ebene. Globale Live-Regionen bleiben erreichbar. Geöffnete und geschlossene Layer senden bubbling Events:
 
 ```js
 document.addEventListener("brams:open", (event) => console.log(event.target));
@@ -183,18 +198,18 @@ npm run preview
 
 ## Tests
 
-Playwright ist die einzige Entwicklungsabhängigkeit; die ausgelieferte Library bleibt dependency-frei.
+Playwright und Axe sind reine Entwicklungsabhängigkeiten; die ausgelieferte Library bleibt dependency-frei.
 
 ```bash
-npm install
-npx playwright install
+npm ci
+npx playwright install --with-deps chromium firefox webkit
 npm test
 ```
 
-Der Testserver verwendet standardmäßig Port 4173. Bei einem belegten Port kann er ohne Konfigurationsänderung überschrieben werden:
+Die Suite verwendet reproduzierbar zwei parallele Worker und der Testserver standardmäßig Port 4173. Beides kann ohne Konfigurationsänderung überschrieben werden:
 
 ```bash
-BRAMS_TEST_PORT=4317 npm test
+BRAMS_TEST_WORKERS=4 BRAMS_TEST_PORT=4317 npm test
 ```
 
 Die Suite prüft unter Chromium, Firefox und WebKit unter anderem:
@@ -207,7 +222,7 @@ Die Suite prüft unter Chromium, Firefox und WebKit unter anderem:
 - Fokusdarstellung, WCAG-AA-Kontrast, Reduced Motion, Disabled-/Invalid-Zustände und visuelle Chromium-Snapshots
 - genau eine vollständige `STATE`/`INPUT`/`API`-Spezifikationszeile je Komponente sowie Finder-Suche über diese Metadaten, Diakritika, Tastaturnavigation, Hash/Fokus und schmale Auto-Scrolling-Navigation
 - vollständige Snippet-Abdeckung, unabhängige Codepanels, Clipboard- und sichtbarer manueller Fallback
-- v0.5.0-Tokens, lokale Archivo-Schnitte, schwarze Primäraktionen, reduzierte Radien, schattenlose Standard-Cards, native Checkboxen/Radios und beide Pagination-Klassen
+- v1.0.0-Tokens, lokale Archivo-Schnitte, schwarze Primäraktionen, reduzierte Radien, schattenlose Standard-Cards, native Checkboxen/Radios und beide Pagination-Klassen
 - Zustandsmatrix für Buttons, Icon Buttons, Tabs, Segmente, Pagination, Checkbox, Radio, Switch und Eingaben unter Chromium, Firefox und WebKit
 - Chromium-Gesamtkataloge bei 1440px, 1024px, 768px, 390px und 320px sowie Detailaufnahmen von Finder, Codepanel, Hero-Motiv, Kapitelankern und Materialabschluss
 
@@ -217,6 +232,24 @@ Chromium-Snapshots werden bewusst aktualisiert mit:
 npm run test:update
 ```
 
+Die automatisierten Accessibility-Prüfungen lassen sich separat ausführen:
+
+```bash
+npm run test:accessibility
+```
+
+Sie prüfen den statischen Katalog sowie geöffnete Finder-, Dialog-, Drawer-, Popover- und Menü-Zustände mit Axe gegen WCAG A/AA und relevante Best Practices. Diese Automatisierung ergänzt, ersetzt aber keine manuelle Prüfung mit Tastatur und Screenreader in einem konkreten Produkt.
+
+`npm run test:release` prüft zusätzlich, dass Package-Manifest, Lockfile, Runtime, Katalog, README und Changelog dieselbe Versionsnummer tragen.
+
+## Continuous Integration
+
+GitHub Actions führt bei jedem Pull Request und jedem Push auf `main` einen sauberen `npm ci`-Install und die vollständige Suite in Chromium, Firefox und WebKit aus. Die CI verwendet Node 24.18.0 aus [`.nvmrc`](.nvmrc); die Action-Versionen sind auf geprüfte Commit-SHAs festgelegt.
+
+## Versionierung und Releases
+
+Ab v1.0.0 folgt Brams der semantischen Versionierung. Änderungen an der stabilen Library-API werden in [`CHANGELOG.md`](CHANGELOG.md) dokumentiert. Ein Release gilt erst als veröffentlicht, wenn Tag, GitHub Release und GitHub Pages denselben geprüften Commit referenzieren.
+
 ## Browser
 
-Unterstützt werden aktuelle Versionen von Chromium, Firefox und WebKit. v0.5.0 bewahrt die BEM-Klassen, `data-brams-*`-Hooks und die öffentliche JavaScript-API aus v0.3. Neue Layout-, Spezifikations- und `data-brams-demo-*`-Hooks bleiben bewusst außerhalb dieser Kompatibilitätszusage.
+Unterstützt werden aktuelle Versionen von Chromium, Firefox und WebKit. v1.0.0 bewahrt die BEM-Klassen, `data-brams-*`-Hooks und die öffentliche JavaScript-API aus v0.3 bis v0.5. Neue Layout-, Spezifikations- und `data-brams-demo-*`-Hooks bleiben bewusst außerhalb dieser Kompatibilitätszusage.

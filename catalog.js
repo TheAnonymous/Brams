@@ -131,10 +131,12 @@
         const heading = document.createElement("h3");
         heading.className = "brams-catalog-finder__group-title";
         heading.id = `finder-group-${items[0].element.closest(".brams-catalog-section").id}`;
+        heading.setAttribute("role", "presentation");
         heading.textContent = category;
         group.setAttribute("aria-labelledby", heading.id);
         const list = document.createElement("div");
         list.className = "brams-catalog-finder__list";
+        list.setAttribute("role", "presentation");
         items.forEach((component) => {
           const option = document.createElement("button");
           option.className = "brams-catalog-finder__result";
